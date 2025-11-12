@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import yfinance as yf
 
-data = yf.download('KXIN', period='10y', interval='1d')
+data = yf.download('RYLPF', period='20y', interval='1d')
 data.columns = [col[0] for col in data.columns]
 
 class SmaCrossStrategy(Strategy):
