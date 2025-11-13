@@ -5,7 +5,11 @@ Not vibecoding
 Splitting into different files
 Not pushing html files, that were autgenerated
 
+lass so das repo machen zu so ein repo von all den bekannten/available trading algorithms, und dann so eine website publishen wo die leute das sehen können und auswählen und mit interagieren können
 
+ja safe, genau so dacht ich auch, was meinst du aber mit *repo machen zu so ein repo* 
+
+halt einfach eine Webseite, bei der man einen stock auswählen kann und eine Strategie und sehen kann, ob die strategie performt oder nicht. WIr können dazu noch ein bissl die strategien beschreiben so als lernplattform, und wir können auch die strategie bewerten so in ner Skala, 
 
 TODO Implementing Strategies:
 
