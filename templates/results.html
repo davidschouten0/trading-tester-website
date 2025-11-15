@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Backtest-Ergebnis</title>
+    <script src="https://cdn.plot.ly/plotly-3.3.0.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+    <div>
+        <div id="chart-div"></div>
+    </div>
+    <script>    
+        const fig_json = {{ chart_json | safe }};
+        console.log("DEBUG: JSON-DATEN, DIE VOM SERVER KAMEN:", fig_json);
+        console.log("DEBUG: JSON-DATEN, DIE VOM SERVER KAMEN:", fig_json);
+
+        Plotly.newPlot("chart-div", 
+                       fig_json.data, 
+                       fig_json.layout, 
+                       {responsive: true});
+    </script>
+</body>
+</html>
