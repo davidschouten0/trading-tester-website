@@ -3,16 +3,24 @@
 <head>
     <title>Backtest-Ergebnis</title>
     <script src="https://cdn.plot.ly/plotly-3.3.0.min.js" charset="utf-8"></script>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/static/favicon_io/site.webmanifest">
+
 </head>
 <body>
-
+    {% for key, value in stats_data.items() %}
+        <li>    
+            <strong>{{ key | replace('_', ' ') }}:</strong> {{ value }}
+        </li>
+    {% endfor %}
     <div>
         <div id="chart-div"></div>
     </div>
     <script>    
         const fig_json = {{ chart_json | safe }};
-        console.log("DEBUG: JSON-DATEN, DIE VOM SERVER KAMEN:", fig_json);
-        console.log("DEBUG: JSON-DATEN, DIE VOM SERVER KAMEN:", fig_json);
 
         Plotly.newPlot("chart-div", 
                        fig_json.data, 

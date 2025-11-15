@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="de" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dein Backtesting-Bot</title>
-    <!-- 1. Lade Tailwind CSS über das CDN -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/static/favicon_io/site.webmanifest">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // 2. Konfiguriere Tailwind für den "Dark Mode"
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        // 'Inter' ist eine saubere, moderne Schriftart
                         sans: ['Inter', 'sans-serif'],
                     },
                 }
@@ -20,20 +21,9 @@
         }
     </script>
 </head>
-<!-- 
-  Diese Klassen zentrieren den gesamten Inhalt
-  und setzen das dunkle Theme für die Seite
--->
+
 <body class="bg-gray-900 text-gray-200 font-sans h-full flex items-center justify-center">
 
-    <!-- 
-      Dies ist die Haupt-"Karte", die das Formular enthält.
-      w-full = 100% breit auf Mobilgeräten
-      max-w-md = Maximale Breite auf Desktops
-      p-8 = Innenabstand (padding)
-      rounded-lg = Schöne runde Ecken
-      shadow-xl = Ein starker Schlagschatten
-    -->
     <div class="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-xl">
         
         <h1 class="text-3xl font-bold text-center text-white mb-6">
@@ -43,13 +33,8 @@
             Teste deine SMA-Crossover-Strategie.
         </p>
 
-        <!-- 
-          Das Formular, das die Daten an deine Flask-Route
-          /run_backtest mit der Methode POST sendet
-        -->
         <form action="/run_backtest" method="POST">
             
-            <!-- Ticker-Eingabefeld -->
             <div class="mb-4">
                 <label for="ticker" class="block text-sm font-bold mb-2">
                     Ticker-Symbol
@@ -59,7 +44,6 @@
                        placeholder="z.B. SPY, AAPL" required>
             </div>
 
-            <!-- Kurzer SMA -->
             <div class="mb-4">
                 <label for="sma_short" class="block text-sm font-bold mb-2">
                     Kurzer SMA (Tage)
@@ -69,7 +53,6 @@
                        value="50" required>
             </div>
 
-            <!-- Langer SMA -->
             <div class="mb-4">
                 <label for="sma_long" class="block text-sm font-bold mb-2">
                     Langer SMA (Tage)
@@ -79,7 +62,6 @@
                        value="200" required>
             </div>
 
-            <!-- Startkapital -->
             <div class="mb-6">
                 <label for="start_cash" class="block text-sm font-bold mb-2">
                     Startkapital ($)
@@ -89,7 +71,6 @@
                        value="10000" required>
             </div>
 
-            <!-- Absende-Button -->
             <div>
                 <button type="submit" 
                         class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-md hover:bg-blue-700 transition duration-300">
