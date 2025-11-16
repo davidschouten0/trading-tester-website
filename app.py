@@ -10,8 +10,9 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    # Zeigt einfach nur dein Eingabeformular (index.html)
     return render_template('index.html')
+
+
 
 @app.route('/run_backtest', methods=['POST'])
 def run_backtest_route():
@@ -31,7 +32,7 @@ def run_backtest_route():
     
     fig = go.Figure()
 
-    # --- Ebene 1: Candlestick-Chart ---
+    #Candlestick-Chart
     fig.add_trace(go.Candlestick(
         x=data.index,
         open=data['Open'],
@@ -41,7 +42,7 @@ def run_backtest_route():
         name='Candlesticks'
     ))
 
-    # --- Ebene 2: SMA-Linien ---
+    #SMA-Linien
     fig.add_trace(go.Scatter(
         x=data.index, 
         y=data['SMA_short'], 
@@ -57,14 +58,13 @@ def run_backtest_route():
         line=dict(color='orange', width=1.5)
     ))
 
-    # --- Ebene 3: Kauf-/Verkaufs-Pfeile ---
-    # Trenne Kauf- und Verkaufs-Trades für saubere Plots
+    #Kauf-/Verkaufs-Pfeile
     buy_trades = trades[trades['Size'] > 0]
     sell_trades = trades[trades['Size'] < 0]
 
     fig.add_trace(go.Scatter(
         x=buy_trades['EntryTime'],
-        y=buy_trades['EntryPrice'] * 0.98, # Platziere Pfeil knapp unter der Kerze
+        y=buy_trades['EntryPrice'] * 0.98,
         name='Kauf-Signal',
         mode='markers',
         marker_symbol='triangle-up',
@@ -72,8 +72,8 @@ def run_backtest_route():
         marker_size=10
     ))
     fig.add_trace(go.Scatter(
-        x=sell_trades['EntryTime'], # HINWEIS: Bei 'close_position' ist EntryTime die ExitTime
-        y=sell_trades['EntryPrice'] * 1.02, # Platziere Pfeil knapp über der Kerze
+        x=sell_trades['EntryTime'],
+        y=sell_trades['EntryPrice'] * 1.02,
         name='Verkauf-Signal',
         mode='markers',
         marker_symbol='triangle-down',
@@ -81,41 +81,34 @@ def run_backtest_route():
         marker_size=10
     ))
 
-    # --- Ebene 4: Hintergrund-Zonen (Profit/Loss) ---
+    #Hintergrund-Zonen
     for index, trade in trades.iterrows():
         fig.add_shape(
             type="rect",
-            # Zeit-Achse (X)
             x0=trade['EntryTime'],
             x1=trade['ExitTime'],
-            # Preis-Achse (Y)
             y0=trade['EntryPrice'],
             y1=trade['ExitPrice'],
             fillcolor='green' if trade['PnL'] > 0 else 'red',
             opacity=0.2,
-            layer='below', # Hinter die Kerzen legen
+            layer='below',
             line_width=0
         )
 
-    # --- Mach es hübsch (Dark Mode) ---
+    #Dark Mode
     fig.update_layout(
         title=f'Backtest: {ticker} (SMA {sma_short}/{sma_long})',
         template="plotly_dark",
         xaxis_title='Datum',
         yaxis_title='Preis (USD)',
-        xaxis_rangeslider_visible=False # Deaktiviert den kleinen "Slider"
+        xaxis_rangeslider_visible=False
     )
 
-    # 4. DIE MAGIE (TEIL 2): In JSON umwandeln
     chart_json = fig.to_json()
 
-    # Wandle die Statistik-Tabelle (ein pd.Series) in ein Dictionary um
-    # Wir runden die Werte für eine saubere Anzeige
     stats_dict = stats.to_dict()
     stats_dict_rounded = {k: (f"{v:.2f}" if isinstance(v, float) else v) for k, v in stats_dict.items()}
 
-
-    # 5. Alles an die Ergebnisseite schicken
     return render_template('results.html', stats_data=stats_dict_rounded, chart_json=chart_json)
 
 if __name__ == '__main__':
