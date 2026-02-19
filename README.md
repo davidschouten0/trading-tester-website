@@ -6,9 +6,9 @@ Structure of the project:
 - ta-lib - library of different algorithms to test / math functions
 
 to get started run:
-  python3 -m venv .venv
-  source .venv/bin/activate
-  pip install alpaca-py backtesting TA-Lib plotly pytz python-dotenv
+- python3 -m venv .venv
+- source .venv/bin/activate
+- pip install alpaca-py backtesting TA-Lib pytz python-dotenv
 
 then, 
 - create an alpaca account and get an api-key for market data requests
@@ -19,6 +19,7 @@ SECRET_KEY=
 API_KEY=
 ```
 
+---
 lass so das repo machen zu so ein repo von all den bekannten/available trading algorithms, und dann so eine website publishen wo die leute das sehen können und auswählen und mit interagieren können
 halt einfach eine Webseite, bei der man einen stock auswählen kann und eine Strategie und sehen kann, ob die strategie performt oder nicht. WIr können dazu noch ein bissl die strategien beschreiben so als lernplattform, und wir können auch die strategie bewerten so in ner Skala, 
 
