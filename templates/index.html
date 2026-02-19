@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de" class="h-full">
+<head>
+    <title>Dein Backtesting-Bot</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/static/favicon_io/site.webmanifest">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-900 text-gray-200 font-sans h-full flex items-center justify-center">
+
+    <div class="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-xl">
+        
+        <h1 class="text-3xl font-bold text-center text-white mb-6">
+            Dein Backtesting-Bot
+        </h1>
+        <p class="text-center text-gray-400 mb-8">
+            Teste deine SMA-Crossover-Strategie.
+        </p>
+
+        <form action="/run_backtest" method="POST">
+            
+            <div class="mb-4">
+                <label for="ticker" class="block text-sm font-bold mb-2">
+                    Ticker-Symbol
+                </label>
+                <input type="text" id="ticker" name="ticker" 
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="z.B. SPY, AAPL" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="sma_short" class="block text-sm font-bold mb-2">
+                    Kurzer SMA (Tage)
+                </label>
+                <input type="number" id="sma_short" name="sma_short" 
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       value="50" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="sma_long" class="block text-sm font-bold mb-2">
+                    Langer SMA (Tage)
+                </label>
+                <input type="number" id="sma_long" name="sma_long" 
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       value="200" required>
+            </div>
+
+            <div class="mb-6">
+                <label for="start_cash" class="block text-sm font-bold mb-2">
+                    Startkapital ($)
+                </label>
+                <input type="number" id="start_cash" name="start_cash" 
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       value="10000" required>
+            </div>
+
+            <div>
+                <button type="submit" 
+                        class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-md hover:bg-blue-700 transition duration-300">
+                    Strategie testen
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+</body>
+</html>

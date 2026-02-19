@@ -21,7 +21,7 @@ def main():
 
     strat = bt.run()
     print(strat)
-    bt.plot()
+    bt.plot(filename="plots/" + str(switcher[strat].name()))
 
 
 if __name__ == "__main__":

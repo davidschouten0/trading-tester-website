@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="de" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backtest-Ergebnis</title>
+    
+    <script src="https://cdn.plot.ly/plotly-3.3.0.min.js" charset="utf-8"></script>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/static/favicon_io/site.webmanifest">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-900 text-gray-200 font-sans min-h-screen py-12 px-4">
+
+    <main class="w-full max-w-4xl p-6 sm:p-8 mx-auto bg-gray-800 rounded-lg shadow-xl">
+
+        <h1 class="text-3xl font-bold text-center text-white mb-8">
+            Backtest-Ergebnis
+        </h1>
+
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-100 mb-4">Statistiken</h2>
+            <ul class="bg-gray-700 rounded-lg border border-gray-600 divide-y divide-gray-600">
+                
+                {% for key, value in stats_data.items() %}
+                <li class="flex justify-between items-center p-4">    
+                    <strong class="font-semibold text-gray-100 capitalize">
+                        {{ key | replace('_', ' ') }}:
+                    </strong> 
+                    <span class="text-gray-300 text-lg font-mono">{{ value }}</span>
+                </li>
+                {% endfor %}
+
+            </ul>
+        </div>
+
+        <div>
+            <h2 class="text-xl font-semibold text-gray-100 mb-4">Performance-Chart</h2>
+            <div id="chart-div" class="w-full min-h-[450px] rounded-lg overflow-hidden">
+                </div>
+        </div>
+
+    </main>
+    
+    <script>    
+        const fig_json = {{ chart_json | safe }};
+
+        Plotly.newPlot("chart-div", 
+                        fig_json.data, 
+                        fig_json.layout, 
+                        {responsive: true});
+    </script>
+
+</body>
+</html>
