@@ -17,7 +17,7 @@ def main():
     }
     switcher[strat].setBUY(switcher[strat], buy=0.04)
 
-    bt = Backtest(data, switcher[strat], cash=100000, commission=0.00)
+    bt = Backtest(data, switcher[strat], cash=100000, commission=(0.2, 0))
 
     strat = bt.run()
     print(strat)
