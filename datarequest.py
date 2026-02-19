@@ -15,15 +15,15 @@ api_key = os.getenv("API_KEY")
 def request(symbol):
     client = StockHistoricalDataClient(api_key, secret_key)
 
-    response = requests.get(
-        f"http://d.yimg.com/autoc.finance.yahoo.com/autoc?query={symbol}&region=1&lang=en"
-    ).json
-    print(response)
+    # response = requests.get(
+    #     f"http://d.yimg.com/autoc.finance.yahoo.com/autoc?query={symbol}&region=1&lang=en"
+    # ).json()
+    # print(response)
 
     request_params = StockBarsRequest(
         symbol_or_symbols=[symbol],
-        timeframe=TimeFrame(5, TimeFrameUnit(TimeFrameUnit.Minute)),
-        start=datetime.strptime("2022-07-01", "%Y-%m-%d"),
+        timeframe=TimeFrame(6, TimeFrameUnit(TimeFrameUnit.Hour)),
+        start=datetime.strptime("2023-01-01", "%Y-%m-%d"),
     )
 
     bars = client.get_stock_bars(request_params)

@@ -15,18 +15,13 @@ def main():
         "1": kma.KamaCrossStrategy,
         "2": sma.SmaCrossStrategy,
     }
-    switcher[strat].setBUY(switcher[strat], buy=800)
+    switcher[strat].setBUY(switcher[strat], buy=0.04)
 
-    bt = Backtest(
-        data, switcher[strat], cash=10000, commission=0.002, finalize_trades=True
-    )
+    bt = Backtest(data, switcher[strat], cash=100000, commission=0.00)
 
     strat = bt.run()
     print(strat)
     bt.plot()
-    # data['SMA_50'] = data['Close'].rolling(window=50).mean()
-    # data['SMA_200'] = data['Close'].rolling(window=200).mean()
-    # data['signal'] = np.where(data['SMA_50'] > data['SMA_200'], 1, 0)
 
 
 if __name__ == "__main__":
