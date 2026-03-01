@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Strategy Tester</title>
+</head>
+
+
+<body>
+    <h1>Trading Strategy Tester</h1>
+    <p>Select your parameters below to run the backtest.</p>
+
+    <form action="/backtest" method="POST">
+
+        <div>
+            <label for="ticker">Ticker Symbol:</label>
+            <input type="text" id="ticker" name="ticker" placeholder="e.g., AAPL" required>
+        </div>
+
+        <br>
+
+        <div>
+            <label for="strategy">Trading Strategy:</label>
+            <select id="strategy" name="strategy">
+                <option value="SMA">SMA (Simple Moving Average)</option>
+                <option value="KAMA">KAMA (Kaufman's Adaptive Moving Average)</option>
+            </select>
+        </div>
+
+        <br>
+
+        <button type="submit">Run Backtest</button>
+
+    </form>
+
+</body>
+
+
+</html>
