@@ -1,28 +1,20 @@
-from backtesting import Backtest
+import flask
 
-import datarequest
-import strategies.kamaStrat as kma
-import strategies.smaStrat as sma
+app = flask.Flask(__name__)
 
+@app.route("/")
+def index():
+    return flask.render_template("index.html")
 
-def main():
-    symbol = input("Enter a symbol: ")
-    data = datarequest.request(symbol)
+@app.route("/backtest", methods=["POST"])
+def backtest():
+    ticker = flask.request.form.get("ticker")
+    strategy = flask.request.form.get("strategy")
 
-    strat = input("Which strategy are we testing today? (KAMA(1), SMA(2), AMV(3))")
+    #given the stock and the strategy, the backtest will be done
+    data = 0
 
-    switcher = {
-        "1": kma.KamaCrossStrategy,
-        "2": sma.SmaCrossStrategy,
-    }
-    switcher[strat].setBUY(switcher[strat], buy=0.04)
-
-    bt = Backtest(data, switcher[strat], cash=100000, commission=(0.2, 0))
-
-    strat = bt.run()
-    print(strat)
-    bt.plot(filename="plots/" + str(switcher[strat].name()))
-
+    return flask.render_template("backtest.html", ticker_html=ticker, strategy_html=strategy, data_html=data)
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)
