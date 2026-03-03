@@ -1,38 +1,57 @@
 <!DOCTYPE html>
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
     <title>Trading Strategy Tester</title>
 </head>
 
 
 <body>
-    <h1>Trading Strategy Tester</h1>
-    <p>Select your parameters below to run the backtest.</p>
+    <header>
+        <div style="text-align: center;">TraderMader</div>
+    </header>
 
-    <form action="/backtest" method="POST">
+    <main>
 
-        <div>
-            <label for="ticker">Ticker Symbol:</label>
-            <input type="text" id="ticker" name="ticker" placeholder="e.g., AAPL" required>
-        </div>
+        <p>Select your parameters below to run the backtest.</p>
 
-        <br>
+        <form action="/backtest" method="POST">
 
-        <div>
-            <label for="strategy">Trading Strategy:</label>
-            <select id="strategy" name="strategy">
-                <option value="SMA">SMA (Simple Moving Average)</option>
-                <option value="KAMA">KAMA (Kaufman's Adaptive Moving Average)</option>
-            </select>
-        </div>
+            <div>
+                <label for="ticker">Ticker Symbol:</label>
+                <input type="text" id="ticker" name="ticker" placeholder="e.g., AAPL" required>
+            </div>
 
-        <br>
+            <br>
 
-        <button type="submit">Run Backtest</button>
+            <div>
+                <label for="strategy">Trading Strategy:</label>
+                <select id="strategy" name="strategy">
+                    <option value="SMA">SMA (Simple Moving Average)</option>
+                    <option value="KAMA">KAMA (Kaufman's Adaptive Moving Average)</option>
+                </select>
+            </div>
 
-    </form>
+            <br>
+
+            <button type="submit">Run Backtest</button>
+
+        </form>
+
+    </main>
+
+    <footer>
+
+    </footer>
 
 </body>
 
