@@ -10,6 +10,9 @@ app = flask.Flask(__name__)
 @app.route("/")
 def index():
     return flask.render_template("index.html")
+    return yf.Lookup(query=flask.request.form.get("ticker")).get_stock(
+        count=5
+    )  # wenn du ticker lookup willst
 
 
 @app.route("/backtest", methods=["POST"])
