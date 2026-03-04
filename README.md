@@ -8,16 +8,8 @@ Structure of the project:
 to get started run:
 - python3 -m venv .venv
 - source .venv/bin/activate
-- pip install alpaca-py backtesting TA-Lib pytz python-dotenv
+- pip install yfinance backtesting TA-Lib plotly
 
-then, 
-- create an alpaca account and get an api-key for market data requests
-- create a .env file in this format:
-```
-ALPACA_URL=https://paper-api.alpaca.markets/v2
-SECRET_KEY=
-API_KEY=
-```
 
 ---
 lass so das repo machen zu so ein repo von all den bekannten/available trading algorithms, und dann so eine website publishen wo die leute das sehen können und auswählen und mit interagieren können
