@@ -3,18 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+    
     <title>Backtest Ergebnis</title>
 </head>
 
 
 <body>
 
-    <h1>Trading Strategy Tester</h1>
+    <header>
+        <strong>TradingTester</strong> | Platzhalter für Menü
+    </header>
 
-    <p>You tested {{ strategy_html }} on {{ ticker_html }} </p>
-    <p>Performance</p>
+    <main>
+        <h1>Trading Strategy Tester</h1>
 
-    <p> {{ data_html }} </p>
+        <p>You tested {{ strategy_html }} on {{ ticker_html }} </p>
+        <p>Performance</p>
+
+        <p> {{ data_html }} </p>
+    </main>
+
+    <footer>
+        <p>Impressum | Kontakt | © 2024</p>
+    </footer>
 
 </body>
 
