@@ -34,9 +34,9 @@ TODO
 
 Implementing Strategies:
 
-1. **Moving Average Crossover**: Buy when a short-term MA crosses above a long-term MA; sell on the reverse.
+1. **Moving Average Crossover**: Buy when a short-term MA crosses above a long-term MA; sell on the reverse. - finished
 
-2. **Mean Reversion**: Trade assuming prices revert to the mean, using indicators like Bollinger Bands to identify deviations.
+2. **Mean Reversion**: Trade assuming prices revert to the mean, using indicators like Bollinger Bands to identify deviations. - finished
 
 3. **Momentum Trading**: Buy assets showing upward price momentum (e.g., via Rate of Change or Momentum indicator) and sell on weakness.
 
