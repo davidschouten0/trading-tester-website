@@ -8,8 +8,9 @@ class KamaCrossStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    def name(self):
-        return "kama"
+    @staticmethod
+    def name():
+        return "KAMA"
 
     def init(self):
         self.kama = self.I(talib.KAMA, self.data.Close)
