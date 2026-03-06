@@ -34,17 +34,17 @@ TODO
 
 Implementing Strategies:
 
-1. **Moving Average Crossover**: Buy when a short-term MA crosses above a long-term MA; sell on the reverse.
+1. **Moving Average Crossover**: Buy when a short-term MA crosses above a long-term MA; sell on the reverse. - finished
 
-2. **Mean Reversion**: Trade assuming prices revert to the mean, using indicators like Bollinger Bands to identify deviations.
+2. **Mean Reversion**: Trade assuming prices revert to the mean, using indicators like Bollinger Bands to identify deviations. - finished
 
-3. **Momentum Trading**: Buy assets showing upward price momentum (e.g., via Rate of Change or Momentum indicator) and sell on weakness.
+3. **Momentum Trading**: Buy assets showing upward price momentum (e.g., via Rate of Change or Momentum indicator) and sell on weakness. - finished (can be improved)
 
-4. **RSI Overbought/Oversold**: Buy when RSI drops below 30 (oversold); sell above 70 (overbought).
+4. **RSI Overbought/Oversold**: Buy when RSI drops below 30 (oversold); sell above 70 (overbought). - finished (you sure it not other way, when oversold, sell, overbought buy)
 
-5. **MACD Crossover**: Buy on MACD line crossing above signal line; sell on the reverse.
+5. **MACD Crossover**: Buy on MACD line crossing above signal line; sell on the reverse. - finished
 
-6. **Bollinger Bands Squeeze**: Enter trades when bands contract (low volatility) and expand, signaling breakouts.
+6. **Bollinger Bands Squeeze**: Enter trades when bands contract (low volatility) and expand, signaling breakouts. - finished
 
 7. **Ichimoku Cloud**: Buy when price is above the cloud and conversion line crosses base line; sell on reverses.
 
@@ -83,3 +83,5 @@ Implementing Strategies:
 24. **Chande Momentum Oscillator (CMO)**: Buy above -50 from below; sell below +50 from above.
 
 25. **Relative Vigor Index (RVI)**: Buy on RVI crossing above signal line; measures closing strength.
+
+- algo which tells if market is sideways market

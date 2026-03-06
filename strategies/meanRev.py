@@ -1,5 +1,6 @@
 import talib
 from backtesting import Strategy
+from backtesting.lib import cross, crossover
 
 
 class MeanRevCrossStrategy(Strategy):
@@ -13,24 +14,21 @@ class MeanRevCrossStrategy(Strategy):
         return "MeanRev"
 
     def init(self):
-        self.ma50 = self.I(talib.MA, self.data.Close, timeperiod=50)
-        self.ma100 = self.I(talib.MA, self.data.Close, timeperiod=100)
+        self.bollingerlow = self.I(talib.BBANDS, self.data.Close)[-1]
+        self.bollingerhigh = self.I(talib.BBANDS, self.data.Close)[-3]
+        self.ma = self.I(talib.MA, self.data.Close, timeperiod=4)
 
     def next(self):
-        close = self.data.Close[-1]
-        last_ma100 = self.ma100[-2]
-        ma100 = self.ma100[-1]
+        print(self.bollingerlow[-1])
+        print(self.bollingerhigh[-1])
 
-        golden_cross = (last_ma50 <= last_ma100) and (ma50 > ma100)
-
-        death_cross = (last_ma50 >= last_ma100) and (ma50 < ma100)
-
-        if golden_cross:
-            if self.position.is_short:
-                self.position.close()
-            self.buy(size=self.buy_amount)
-
-        elif death_cross:
+        if crossover(self.data.Close, self.bollingerhigh):
             if self.position.is_long:
                 self.position.close()
             self.sell(size=self.buy_amount)
+        elif cross(self.data.Close, self.ma):
+            self.position.close()
+        elif crossover(self.bollingerlow, self.data.Close):
+            if self.position.is_short:
+                self.position.close()
+            self.buy(size=self.buy_amount)
