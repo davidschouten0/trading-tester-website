@@ -14,8 +14,6 @@ class StochasticStrategy(Strategy):
         return "Stochastic"
 
     def init(self):
-        price = self.data.Close
-
         last5low = self.I(talib.MIN, self.data.Low, timeperiod=5)
         last5high = self.I(talib.MAX, self.data.High, timeperiod=5)
 
