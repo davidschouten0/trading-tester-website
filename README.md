@@ -46,11 +46,15 @@ Implementing Strategies:
 
 6. **Bollinger Bands Squeeze**: Enter trades when bands contract (low volatility) and expand, signaling breakouts. - finished
 
-7. **Ichimoku Cloud**: Buy when price is above the cloud and conversion line crosses base line; sell on reverses.
+7. **Ichimoku Cloud**: Buy when price is above the cloud and conversion line crosses base line; sell on reverses. - finished, has lots of potential need to revisit, think im doing it wrong
 
 8. **Parabolic SAR**: Use SAR dots to trail stops; buy when dots flip below price, sell above.
+  - used for trailing stop and loss, entry and exit points determining
+  - works best in trending markets: 
+    - Wilder recommends first establishing the direction or change in direction of the trend through the use of parabolic SAR, and then using a different indicator such as the Average Directional Index to determine the strength of the trend. 
+  - parabola below can be used as support, above as resistance
 
-9. **Stochastic Oscillator**: Buy when %K crosses above %D in oversold territory; sell in overbought.
+9. **Stochastic Oscillator**: Buy when %K crosses above %D in oversold territory; sell in overbought. - finished
 
 10. **ADX Trend Strength**: Combine with DI+ / DI- for directional trades when ADX > 25 indicates strong trends.
 
