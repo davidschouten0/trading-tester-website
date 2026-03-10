@@ -8,6 +8,10 @@ class SmaCrossStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
+    @staticmethod
+    def name():
+        return "SMA"
+
     def init(self):
         self.sma = self.I(talib.SMA, self.data.Close)
 
