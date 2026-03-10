@@ -28,8 +28,38 @@
 
             <div>
                 <label for="ticker">Ticker Symbol:</label>
-                <input type="text" id="ticker" name="ticker" placeholder="e.g., AAPL" required>
+                <input type="text" id="ticker" name="ticker" list="ticker-options" placeholder="e.g., AAPL" required autocomplete="off">
+                <datalist id="ticker-options"></datalist>
             </div>
+            <script>
+                //make the ticker interactive
+
+                const tickerInput = document.getElementById('ticker');
+                const datalist = document.getElementById('ticker-options');
+
+                //when pressing a letter
+                tickerInput.addEventListener('input', async function() {
+                    const query = tickerInput.value;
+
+                    //start querying after 2 letters
+                    if (query.length < 2) {
+                        datalist.innerHTML = ''; 
+                        return;
+                    }
+
+                    //send request to backend via HTTPS
+                    const response = await fetch(`/search_ticker?q=${query}`);
+                    const tickers = await response.json();
+
+                    //clear old list, add new elements
+                    datalist.innerHTML = '';
+                    tickers.forEach(ticker => {
+                        const option = document.createElement('option');
+                        option.value = ticker;
+                        datalist.appendChild(option);
+                    });
+                });
+            </script>
 
             <br>
 
