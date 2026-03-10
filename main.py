@@ -64,7 +64,7 @@ def search_ticker():
     #if there is no query, return an empty JSON
     if len(query) < 1:
         return flask.jsonify([])
-    
+
     url = f"https://query2.finance.yahoo.com/v1/finance/search?q={query}"
 
     headers = {'User-Agent': 'Mozilla/5.0'}
@@ -78,6 +78,10 @@ def search_ticker():
                 valid_tickers.append(quote["symbol"]) 
 
     return flask.jsonify(valid_tickers)
+
+    #return flask.jsonify(yf.Lookup(query=query).get_stock(count=5).exchange.index.to_list())
+
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
