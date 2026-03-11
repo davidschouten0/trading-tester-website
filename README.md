@@ -18,17 +18,17 @@ halt einfach eine Webseite, bei der man einen stock auswählen kann und eine Str
 
 
 
-TODO 
+TODOs:
   Frontend:
-    Beautify more
-    Add Explanation
-    Add Interactive Stoplight (to rate the Strategy)
-
-  Other:
-    Implement more Strategies
-    Make Backtesting faster?
-    Implement Tailwind
-
+    - add plot viewer
+      - maybe also different chart than candlestick, eg. heikin ashi
+    - beautify
+    - add description view?
+    - make search faster
+  Backend:
+    - add below strategies
+    - make strategy description/explanation for each strategy
+    - create own strategies
 
 
 
@@ -56,29 +56,30 @@ Implementing Strategies:
 
 9. **Stochastic Oscillator**: Buy when %K crosses above %D in oversold territory; sell in overbought. - finished
 
-10. **ADX Trend Strength**: Combine with DI+ / DI- for directional trades when ADX > 25 indicates strong trends.
+10. **ADX Trend Strength**: Combine with DI+ / DI- for directional trades when ADX > 25 indicates strong trends.  - finished, money makerrr
+  - trend strength indicator not direction!
+  - <20, weak trend, >40 strong trend, >50 super strong trend
+  - <20 usually chart pattern after
 
-11. **Commodity Channel Index (CCI)**: Buy on CCI crossing above -100 from below; sell below +100 from above.
+11. **Commodity Channel Index (CCI)**: Buy on CCI crossing above -100 from below; sell below +100 from above. - this for commodities, kein bock, rather stocks
 
-12. **Williams %R**: Similar to Stochastic; buy above -80 from below, sell below -20 from above.
+12. **Williams %R**: Similar to Stochastic; buy above -80 from below, sell below -20 from above.  - finsihed
 
-13. **Average True Range (ATR) Breakout**: Use ATR multiples for entry/exit thresholds in volatile markets.
+13. **Average True Range (ATR) Breakout**: Use ATR multiples for entry/exit thresholds in volatile markets. - used for commodities mainly, finished
 
-14. **Volume Weighted Average Price (VWAP)**: Buy below VWAP, sell above, assuming reversion.
+14. **Volume Weighted Average Price (VWAP)**: Buy below VWAP, sell above, assuming reversion. - finished
 
-15. **Pairs Trading**: Identify cointegrated pairs and trade spreads using correlation and z-scores (with MA for signals).
+16. **Donchian Channel Breakout**: Buy on new highs above upper channel; sell on lows below lower channel.    - finished
 
-16. **Donchian Channel Breakout**: Buy on new highs above upper channel; sell on lows below lower channel.
+17. **Keltner Channel**: Trade breakouts or mean reversion based on channel bands (EMA + ATR). - finished
 
-17. **Keltner Channel**: Trade breakouts or mean reversion based on channel bands (EMA + ATR).
+18. **Triple Exponential Moving Average (TEMA) Crossover**: Faster MA variant for crossovers with reduced lag. -finished
 
-18. **Triple Exponential Moving Average (TEMA) Crossover**: Faster MA variant for crossovers with reduced lag.
+19. **Hull Moving Average (HMA) Crossover**: Use HMA for smoother signals in trending markets. - finished
 
-19. **Hull Moving Average (HMA) Crossover**: Use HMA for smoother signals in trending markets.
-
-20. **Aroon Indicator**: Buy when Aroon Up crosses above Aroon Down; indicates trend start.
-
-21. **Ultimate Oscillator**: Buy on divergences or oversold crossings; combines multiple timeframes.
+20. **Aroon Indicator**: Buy when Aroon Up crosses above Aroon Down; indicates trend start. - finished
+ 
+21. **Ultimate Oscillator**: Buy on divergences or oversold crossings; combines multiple timeframes. - finished
 
 22. **TRIX (Triple Exponential Average)**: Buy on positive crossovers; filters noise in trends.
 
@@ -87,5 +88,7 @@ Implementing Strategies:
 24. **Chande Momentum Oscillator (CMO)**: Buy above -50 from below; sell below +50 from above.
 
 25. **Relative Vigor Index (RVI)**: Buy on RVI crossing above signal line; measures closing strength.
+
+15. **Pairs Trading**: Identify cointegrated pairs and trade spreads using correlation and z-scores (with MA for signals). - seems very complex, should do!
 
 - algo which tells if market is sideways market
