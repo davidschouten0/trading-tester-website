@@ -10,9 +10,8 @@ class DonchianStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "Donchian"
+    def indicators(self):
+        return [self.upper, self.lower, self.middle]
 
     def init(self):
         self.upper = self.I(talib.MAX, self.data.High, timeperiod=20)

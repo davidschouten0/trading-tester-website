@@ -10,9 +10,8 @@ class MomentumCrossStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "Momentum Trade"
+    def indicators(self):
+        return [self.roc, self.rsi, self.std, self.avroc]
 
     def init(self):
         self.roc = self.I(talib.ROC, self.data.Close)

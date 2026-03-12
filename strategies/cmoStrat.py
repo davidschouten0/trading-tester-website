@@ -9,9 +9,8 @@ class CMOStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "CMO"
+    def indicators(self):
+        return [self.cmo, self.signal50, self.signal200]
 
     def init(self):
         self.cmo = self.I(talib.CMO, self.data.Close)

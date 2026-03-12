@@ -9,9 +9,8 @@ class TEMACrossStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "TEMA"
+    def indicators(self):
+        return [self.tema]
 
     def init(self):
         self.tema = self.I(talib.TEMA, self.data.Close)

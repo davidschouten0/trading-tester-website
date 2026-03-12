@@ -12,9 +12,8 @@ class UltimateOscStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "UltimateOsc"
+    def indicators(self):
+        return [self.ult]
 
     def init(self):
 

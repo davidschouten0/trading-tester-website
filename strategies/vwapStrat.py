@@ -9,9 +9,8 @@ class VWAPStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "VWAp"
+    def indicators(self):
+        return [self.vwap]
 
     def init(self):
         def vwap(close, volume):

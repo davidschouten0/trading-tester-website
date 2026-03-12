@@ -8,9 +8,8 @@ class AdxStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "ADX"
+    def indicators(self):
+        return [self.adx, self.diplus, self.diminus]
 
     def init(self):
         # upmove = self.data.High[-1]- self.data.High[-2]

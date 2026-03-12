@@ -10,9 +10,8 @@ class RVIStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "RVI"
+    def indicators(self):
+        return [self.rvi, self.signal]
 
     def init(self):
 

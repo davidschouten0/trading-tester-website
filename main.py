@@ -2,7 +2,7 @@ import flask
 import yfinance as yf
 from backtesting import Backtest
 
-from utility.stratSwitcher import stratSwitcher
+from utility.stratSwitcher import get_strategy
 
 app = flask.Flask(__name__)
 
@@ -18,7 +18,11 @@ def index():
 @app.route("/backtest", methods=["POST"])
 def backtest():
     ticker = flask.request.form.get("ticker")
-    strategy = flask.request.form.get("strategy")
+    strategy = (
+        flask.request.form.get("strategy")
+        if flask.request.form.get("strategy") is not None
+        else "SMA"
+    )
 
     # given the stock and the strategy, the backtest will be done
     historic_data = yf.download(ticker, period="ytd", interval="1h")
@@ -27,7 +31,7 @@ def backtest():
     )
     historic_data = historic_data[["Open", "High", "Low", "Close", "Volume"]]
 
-    strat = stratSwitcher(strategy=strategy)
+    strat = get_strategy(strategy)
     strat.setBUY(strat, buy=0.04)
 
     bt = Backtest(historic_data, strat, cash=100000, commission=(0.2, 0))

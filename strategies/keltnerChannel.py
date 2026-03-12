@@ -1,5 +1,3 @@
-# The Donchian channel is a useful indicator for seeing the volatility of a market price. If a price is stable the Donchian channel will be relatively narrow. If the price fluctuates, a lot the Donchian channel will be wider.
-
 import talib
 from backtesting import Strategy
 from backtesting.lib import crossover
@@ -11,9 +9,8 @@ class KeltnerStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "Keltner"
+    def indicators(self):
+        return [self.keltner, self.upline, self.downline]
 
     def init(self):
         self.typicalprice = self.I(

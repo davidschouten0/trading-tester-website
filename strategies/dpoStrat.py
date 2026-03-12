@@ -11,9 +11,8 @@ class DPOStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "DPO"
+    def indicators(self):
+        return [self.dpo]
 
     def init(self):
         self.ma = self.I(talib.SMA, self.data.Close, timeperiod=50)

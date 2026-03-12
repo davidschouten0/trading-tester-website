@@ -8,9 +8,8 @@ class RSICrossStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "RSI"
+    def indicators(self):
+        return [self.rsi]
 
     def init(self):
         self.rsi = self.I(talib.RSI, self.data.Close)

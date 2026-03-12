@@ -8,9 +8,8 @@ class ATRBreakoutStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "ATR"
+    def indicators(self):
+        return [self.atr]
 
     def init(self):
         self.atr = self.I(talib.ATR, self.data.High, self.data.Low, self.data.Close)

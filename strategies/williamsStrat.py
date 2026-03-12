@@ -16,9 +16,8 @@ class WilliamsStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "William %R"
+    def indicators(self):
+        return [self.william]
 
     def init(self):
         self.william = self.I(

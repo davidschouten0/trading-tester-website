@@ -11,9 +11,8 @@ class TRIXStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "TRIX"
+    def indicators(self):
+        return [self.trix, self.signal, self.ma]
 
     def init(self):
         self.trix = self.I(talib.TRIX, self.data.Close)

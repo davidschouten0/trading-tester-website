@@ -9,9 +9,8 @@ class StochasticStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "Stochastic"
+    def indicators(self):
+        return [self.kpercent, self.dpercent]
 
     def init(self):
         last5low = self.I(talib.MIN, self.data.Low, timeperiod=5)
@@ -27,7 +26,6 @@ class StochasticStrategy(Strategy):
         self.dpercent = self.I(talib.SMA, self.kpercent, timeperiod=3)
 
     def next(self):
-
         if crossover(self.kpercent, self.dpercent):
             self.position.close()
             self.buy(size=self.buy_amount)

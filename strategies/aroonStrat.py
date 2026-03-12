@@ -13,9 +13,8 @@ class AroonStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "Aroon"
+    def indicators(self):
+        return [self.aroonUp, self.aroonDown]
 
     def init(self):
         self.aroonUp, self.aroonDown = self.I(

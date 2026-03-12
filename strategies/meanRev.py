@@ -9,9 +9,8 @@ class MeanRevCrossStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "MeanRev"
+    def indicators(self):
+        return [self.bollingerlow, self.bollingerhigh, self.ma]
 
     def init(self):
         self.bollingerlow = self.I(talib.BBANDS, self.data.Close)[-1]
