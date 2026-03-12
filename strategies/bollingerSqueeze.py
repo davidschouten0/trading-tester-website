@@ -11,9 +11,8 @@ class BollingerSqueezeStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "BollingerSqueeze"
+    def indicators(self):
+        return [self.highbband, self.midbband, self.lowbband]
 
     def init(self):
 

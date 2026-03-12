@@ -11,9 +11,14 @@ class IchimokuCloudStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "IchimokuCloud"
+    def indicators(self):
+        return [
+            self.tenkan,
+            self.kijun,
+            self.senkouA_lead,
+            self.senkouB_lead,
+        ]
+        # idk if need pass self.senkouA, self.senkouB,
 
     def init(self):
         high = self.data.High
