@@ -81,14 +81,14 @@ Implementing Strategies:
  
 21. **Ultimate Oscillator**: Buy on divergences or oversold crossings; combines multiple timeframes. - finished
 
-22. **TRIX (Triple Exponential Average)**: Buy on positive crossovers; filters noise in trends.
+22. **TRIX (Triple Exponential Average)**: Buy on positive crossovers; filters noise in trends. - finsihed
 
-23. **Detrended Price Oscillator (DPO)**: Identify cycles by removing trends; trade overbought/oversold.
+23. **Detrended Price Oscillator (DPO)**: Identify cycles by removing trends; trade overbought/oversold. - finished
 
-24. **Chande Momentum Oscillator (CMO)**: Buy above -50 from below; sell below +50 from above.
+24. **Chande Momentum Oscillator (CMO)**: Buy above -50 from below; sell below +50 from above. - finished
 
-25. **Relative Vigor Index (RVI)**: Buy on RVI crossing above signal line; measures closing strength.
+25. **Relative Vigor Index (RVI)**: Buy on RVI crossing above signal line; measures closing strength. - finished
 
-15. **Pairs Trading**: Identify cointegrated pairs and trade spreads using correlation and z-scores (with MA for signals). - seems very complex, should do!
+15. **Pairs Trading**: Identify cointegrated pairs and trade spreads using correlation and z-scores (with MA for signals). - seems very complex, should do, difficult as backtesting.py only can do 1 asset
 
 - algo which tells if market is sideways market
