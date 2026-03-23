@@ -8,9 +8,8 @@ class SarCrossStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "SAR"
+    def indicators(self):
+        return [self.sar]
 
     def init(self):
         self.sar = self.I(talib.SAR, self.data.High, self.data.Low, scatter=True)

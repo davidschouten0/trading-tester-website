@@ -9,9 +9,8 @@ class MACDPullbackStrategy(Strategy):
     def setBUY(self, buy):
         self.buy_amount = buy
 
-    @staticmethod
-    def name():
-        return "MACDPullback"
+    def indicators(self):
+        return [self.macd, self.sma]
 
     def init(self):
         self.fastema = self.I(talib.EMA, self.data.Close, timeperiod=12)
