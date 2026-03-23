@@ -1,20 +1,20 @@
 import flask
 import yfinance as yf
 from backtesting import Backtest
+import requests
+from utility import graph_helper
 
-from utility.stratSwitcher import get_strategy
+from utility.strat_switcher import stratSwitcher
 
 app = flask.Flask(__name__)
 
-
+#show index
 @app.route("/")
 def index():
     return flask.render_template("index.html")
-    return yf.Lookup(query=flask.request.form.get("ticker")).get_stock(
-        count=5
-    )  # wenn du ticker lookup willst
 
 
+#run a backtest
 @app.route("/backtest", methods=["POST"])
 def backtest():
     ticker = flask.request.form.get("ticker")
@@ -38,10 +38,54 @@ def backtest():
 
     data = bt.run()
 
+    """
+    this is 'data' btw:
+
+    Index(['Start', 'End', 'Duration', 'Exposure Time [%]', 'Equity Final [$]',
+       'Equity Peak [$]', 'Commissions [$]', 'Return [%]',
+       'Buy & Hold Return [%]', 'Return (Ann.) [%]', 'Volatility (Ann.) [%]',
+       'CAGR [%]', 'Sharpe Ratio', 'Sortino Ratio', 'Calmar Ratio',
+       'Alpha [%]', 'Beta', 'Max. Drawdown [%]', 'Avg. Drawdown [%]',
+       'Max. Drawdown Duration', 'Avg. Drawdown Duration', '# Trades',
+       'Win Rate [%]', 'Best Trade [%]', 'Worst Trade [%]', 'Avg. Trade [%]',
+       'Max. Trade Duration', 'Avg. Trade Duration', 'Profit Factor',
+       'Expectancy [%]', 'SQN', 'Kelly Criterion', '_strategy',
+       '_equity_curve', '_trades'],
+      dtype='str')
+    """
+
+    equity_curve = graph_helper.equity_curve(data)
+
     return flask.render_template(
-        "backtest.html", ticker_html=ticker, strategy_html=strategy, data_html=data
+        "backtest.html", ticker_html=ticker, strategy_html=strategy, equity_curve=equity_curve
     )
 
+#search for tickers
+@app.route("/search_ticker")
+def search_ticker():
+    query = flask.request.args.get("q", "")
+    
+    #if there is no query, return an empty JSON
+    if len(query) < 1:
+        return flask.jsonify([])
+
+    url = f"https://query2.finance.yahoo.com/v1/finance/search?q={query}"
+
+    headers = {'User-Agent': 'Mozilla/5.0'}
+    response = requests.get(url, headers=headers) #goes to the URL and gets the data
+    data = response.json() 
+
+    valid_tickers = []
+    if "quotes" in data:
+        for quote in data["quotes"]:
+            if "symbol" in quote and (quote["quoteType"] == "EQUITY" or quote["quoteType"] == "ETF"):
+                valid_tickers.append(quote["symbol"]) 
+
+    return flask.jsonify(valid_tickers)
+
+    #return flask.jsonify(yf.Lookup(query=query).get_stock(count=5).exchange.index.to_list())
+
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
