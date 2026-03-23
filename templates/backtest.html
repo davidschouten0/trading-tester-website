@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
     
+    <script src="https://cdn.plot.ly/plotly-3.4.0.min.js" charset="utf-8"></script>
+    
     <title>Backtest Ergebnis</title>
 </head>
 
@@ -25,7 +27,32 @@
         <p>You tested {{ strategy_html }} on {{ ticker_html }} </p>
         <p>Performance</p>
 
-        <p> {{ data_html }} </p>
+        <div id="equity_curve"> </div>
+        <script>
+            const rawData = {{ equity_curve | safe }};
+
+            const dates = rawData.map(row => row.Datetime);
+            const equity = rawData.map(row => row.Equity);
+
+            const trace = {
+                x: dates,
+                y: equity,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Equity',
+                line: { color: '#2563eb', width: 2, shape: 'spline' }
+            };
+
+            const layout = {
+                title: 'Kapitalentwicklung (Equity Curve)',
+                xaxis: { title: 'Datum', showgrid: false },
+                yaxis: { title: 'Kontostand ($)' },
+                paper_bgcolor: 'transparent',
+                plot_bgcolor: 'transparent'
+            };
+
+            Plotly.newPlot("equity_curve", [trace], layout, {responsive: true});
+        </script>
     </main>
 
     <footer>
