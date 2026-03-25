@@ -34,7 +34,9 @@ def backtest():
     strat = get_strategy(strategy)
     strat.setBUY(strat, buy=0.04)
 
-    bt = Backtest(historic_data, strat, cash=100000, commission=(0.2, 0))
+    starting_capital = 100000
+
+    bt = Backtest(historic_data, strat, cash=starting_capital, commission=(0.2, 0))
 
     data = bt.run()
 
@@ -55,9 +57,10 @@ def backtest():
     """
 
     equity_curve = graph_helper.equity_curve(data)
+    buy_and_hold_curve = graph_helper.buy_and_hold_curve(historic_data, starting_capital)
 
     return flask.render_template(
-        "backtest.html", ticker_html=ticker, strategy_html=strategy, equity_curve=equity_curve
+        "backtest.html", ticker_html=ticker, strategy_html=strategy, equity_curve=equity_curve, buy_and_hold_curve=buy_and_hold_curve
     )
 
 #search for tickers

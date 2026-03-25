@@ -1,65 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.plot.ly/plotly-3.4.0.min.js" charset="utf-8"></script>
-    
-    <title>Backtest Ergebnis</title>
-</head>
-
-
-<body>
-
-    <header>
-        <strong>TradingTester</strong> | Platzhalter für Menü
-    </header>
-
-    <main>
-        <h1>Trading Strategy Tester</h1>
-
-        <p>You tested {{ strategy_html }} on {{ ticker_html }} </p>
-        <p>Performance</p>
-
-        <div id="equity_curve"> </div>
-        <script>
-            const rawData = {{ equity_curve | safe }};
-
-            const dates = rawData.map(row => row.Datetime);
-            const equity = rawData.map(row => row.Equity);
-
-            const trace = {
-                x: dates,
-                y: equity,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'Equity',
-                line: { color: '#2563eb', width: 2, shape: 'spline' }
-            };
-
-            const layout = {
-                title: 'Kapitalentwicklung (Equity Curve)',
-                xaxis: { title: 'Datum', showgrid: false },
-                yaxis: { title: 'Kontostand ($)' },
-                paper_bgcolor: 'transparent',
-                plot_bgcolor: 'transparent'
-            };
-
-            Plotly.newPlot("equity_curve", [trace], layout, {responsive: true});
-        </script>
-    </main>
-
-    <footer>
-        <p>Impressum | Kontakt | © 2024</p>
-    </footer>
-
-</body>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+        
+        <script src="https://cdn.plot.ly/plotly-3.4.0.min.js" charset="utf-8"></script>
+        
+        <title>Backtest Ergebnis</title>
+    </head>
 
 
-</html>
+    <body>
+
+        <header>
+            <strong>TradingTester</strong> | Platzhalter für Menü
+        </header>
+
+        <main>
+            <h1>Trading Strategy Tester</h1>
+
+            <p>You tested {{ strategy_html }} on {{ ticker_html }} </p>
+            <p>Performance</p>
+
+            <div id="equity_curve"> </div>
+            <script>
+                const rawStrat = {{ equity_curve | safe }};
+                const rawBuyAndHold = {{ buy_and_hold_curve | safe }};
+
+                const dates = rawStrat.map(row => row.Datetime);
+
+                const equityStrat = rawStrat.map(row => row.Equity);
+                const equityBuyAndHold = rawBuyAndHold.map(row => row.Equity);
+
+                const traceStrat = {
+                    x: dates,
+                    y: equityStrat,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'Equity using {{ strategy_html }}',
+                    line: { color: '#10b981', width: 2, shape: 'spline' }
+                };
+
+                const traceBuyAndHold = {
+                    x: dates,
+                    y: equityBuyAndHold,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'Equity with buying and holding',
+                    line: { color: '#9ca3af', width: 2, shape: 'spline', dash: 'dash' }
+                }
+
+                const layout = {
+                    title: 'Kapitalentwicklung (Equity Curve)',
+                    xaxis: { title: 'Datum', showgrid: false },
+                    yaxis: { title: 'Kontostand ($)' },
+                    paper_bgcolor: 'transparent',
+                    plot_bgcolor: 'transparent'
+                };
+
+                Plotly.newPlot("equity_curve", [traceStrat, traceBuyAndHold], layout, {responsive: true});
+            </script>
+        </main>
+
+        <footer>
+            <p>Impressum | Kontakt | © 2024</p>
+        </footer>
+
+    </body>
+
+
+    </html>
