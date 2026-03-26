@@ -8,6 +8,5 @@ def buy_and_hold_curve(data, starting_capital):
 
     bnh_df = equity_series.to_frame(name="Equity").reset_index()
     
-    # Jetzt exakt wie bei der anderen Kurve formatieren!
     return bnh_df.to_json(orient="records", date_format="iso")
-    return equity_series.to_json()
+

@@ -24,9 +24,9 @@
         <main>
             <h1>Trading Strategy Tester</h1>
 
-            <p>You tested {{ strategy_html }} on {{ ticker_html }} </p>
-            <p>Performance</p>
+            <p>You tested '{{ strategy_html }}' on '{{ ticker_html }}': {{ description }} </p>
 
+            <h2> Strategy VS Buy and Hold </h2>
             <div id="equity_curve"> </div>
             <script>
                 const rawStrat = {{ equity_curve | safe }};
@@ -64,6 +64,12 @@
                 };
 
                 Plotly.newPlot("equity_curve", [traceStrat, traceBuyAndHold], layout, {responsive: true});
+            </script>
+
+            <h2> Buying signals </h2>
+            <div id="price_chart"></div>
+            <script>
+                //daten von python zum graph machen
             </script>
         </main>
 

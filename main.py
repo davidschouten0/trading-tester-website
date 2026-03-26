@@ -4,8 +4,9 @@ from backtesting import Backtest
 import requests
 from utility import graph_helper
 
-from utility.strat_switcher import get_strategy
-from utility.strat_switcher import strategy_is_valid
+from utility.strategies import get_strategy
+from utility.strategies import strategy_is_valid
+from utility.strategies import get_strategy_description
 
 app = flask.Flask(__name__)
 
@@ -59,6 +60,9 @@ def backtest():
     )
     historic_data = historic_data[["Open", "High", "Low", "Close", "Volume"]]
 
+
+    # configure the strategy and run the backtest
+
     strat = get_strategy(strategy)
     strat.setBUY(strat, buy=float(equity_per_trade)/100)
 
@@ -84,11 +88,21 @@ def backtest():
       dtype='str')
     """
 
+    print(data.head)
+
+
+    # turn the data in something plottable
+
+    description = get_strategy_description(strategy=strategy)
+
     equity_curve = graph_helper.equity_curve(data)
+
     buy_and_hold_curve = graph_helper.buy_and_hold_curve(historic_data, starting_capital)
 
+    #fuer den fetten graphen brauch ich: candles (x), buy/sell signals (x), equity curve (\/)
+
     return flask.render_template(
-        "backtest.html", ticker_html=ticker, strategy_html=strategy, equity_curve=equity_curve, buy_and_hold_curve=buy_and_hold_curve
+        "backtest.html", ticker_html=ticker, strategy_html=strategy, equity_curve=equity_curve, buy_and_hold_curve=buy_and_hold_curve, description=description
     )
 
 #search for tickers
