@@ -9,7 +9,7 @@ class KamaCrossStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.kama]
+        return {"kama": self.kama}
 
     def init(self):
         self.kama = self.I(talib.KAMA, self.data.Close)

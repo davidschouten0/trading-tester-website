@@ -14,7 +14,7 @@ class AroonStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.aroonUp, self.aroonDown]
+        return {"aroonUp": self.aroonUp, "aroonDown": self.aroonDown}
 
     def init(self):
         self.aroonUp, self.aroonDown = self.I(

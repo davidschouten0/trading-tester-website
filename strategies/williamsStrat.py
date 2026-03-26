@@ -17,7 +17,7 @@ class WilliamsStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.william]
+        return {"williams": self.william}
 
     def init(self):
         self.william = self.I(

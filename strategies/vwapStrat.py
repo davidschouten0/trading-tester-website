@@ -10,7 +10,7 @@ class VWAPStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.vwap]
+        return {"vwap": self.vwap}
 
     def init(self):
         def vwap(close, volume):

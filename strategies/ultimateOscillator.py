@@ -13,7 +13,7 @@ class UltimateOscStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.ult]
+        return {"ult": self.ult}
 
     def init(self):
 

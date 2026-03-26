@@ -11,7 +11,7 @@ class MovinAverageCrossStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.shortAvg, self.longAvg]
+        return {"shortAvg": self.shortAvg, "longAvg": self.longAvg}
 
     def init(self):
         self.shortAvg = self.I(talib.MA, self.data.Close, timeperiod=50)

@@ -1,20 +1,22 @@
 import flask
+import numpy as np
+import requests
 import yfinance as yf
 from backtesting import Backtest
-import requests
-from utility import graph_helper
 
-from utility.strat_switcher import stratSwitcher
+from utility import graph_helper
+from utility.strat_switcher import get_strategy
 
 app = flask.Flask(__name__)
 
-#show index
+
+# show index
 @app.route("/")
 def index():
     return flask.render_template("index.html")
 
 
-#run a backtest
+# run a backtest
 @app.route("/backtest", methods=["POST"])
 def backtest():
     ticker = flask.request.form.get("ticker")
@@ -31,12 +33,14 @@ def backtest():
     )
     historic_data = historic_data[["Open", "High", "Low", "Close", "Volume"]]
 
-    strat = get_strategy(strategy)
+    strat = get_strategy(name=strategy)
     strat.setBUY(strat, buy=0.04)
 
     bt = Backtest(historic_data, strat, cash=100000, commission=(0.2, 0))
 
     data = bt.run()
+
+    indicator_list = (data["_strategy"]).indicators()
 
     """
     this is 'data' btw:
@@ -57,35 +61,40 @@ def backtest():
     equity_curve = graph_helper.equity_curve(data)
 
     return flask.render_template(
-        "backtest.html", ticker_html=ticker, strategy_html=strategy, equity_curve=equity_curve
+        "backtest.html",
+        ticker_html=ticker,
+        strategy_html=strategy,
+        equity_curve=equity_curve,
     )
 
-#search for tickers
+
+# search for tickers
 @app.route("/search_ticker")
 def search_ticker():
     query = flask.request.args.get("q", "")
-    
-    #if there is no query, return an empty JSON
+
+    # if there is no query, return an empty JSON
     if len(query) < 1:
         return flask.jsonify([])
 
     url = f"https://query2.finance.yahoo.com/v1/finance/search?q={query}"
 
-    headers = {'User-Agent': 'Mozilla/5.0'}
-    response = requests.get(url, headers=headers) #goes to the URL and gets the data
-    data = response.json() 
+    headers = {"User-Agent": "Mozilla/5.0"}
+    response = requests.get(url, headers=headers)  # goes to the URL and gets the data
+    data = response.json()
 
     valid_tickers = []
     if "quotes" in data:
         for quote in data["quotes"]:
-            if "symbol" in quote and (quote["quoteType"] == "EQUITY" or quote["quoteType"] == "ETF"):
-                valid_tickers.append(quote["symbol"]) 
+            if "symbol" in quote and (
+                quote["quoteType"] == "EQUITY" or quote["quoteType"] == "ETF"
+            ):
+                valid_tickers.append(quote["symbol"])
 
     return flask.jsonify(valid_tickers)
 
-    #return flask.jsonify(yf.Lookup(query=query).get_stock(count=5).exchange.index.to_list())
+    # return flask.jsonify(yf.Lookup(query=query).get_stock(count=5).exchange.index.to_list())
 
-    
 
 if __name__ == "__main__":
     app.run(debug=True)
