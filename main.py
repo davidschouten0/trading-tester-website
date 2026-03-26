@@ -4,7 +4,7 @@ from backtesting import Backtest
 import requests
 from utility import graph_helper
 
-from utility.strat_switcher import stratSwitcher
+from utility.strat_switcher import get_strategy
 
 app = flask.Flask(__name__)
 
@@ -34,7 +34,9 @@ def backtest():
     strat = get_strategy(strategy)
     strat.setBUY(strat, buy=0.04)
 
-    bt = Backtest(historic_data, strat, cash=100000, commission=(0.2, 0))
+    starting_capital = 100000
+
+    bt = Backtest(historic_data, strat, cash=starting_capital, commission=(0.2, 0))
 
     data = bt.run()
 
@@ -55,36 +57,18 @@ def backtest():
     """
 
     equity_curve = graph_helper.equity_curve(data)
+    buy_and_hold_curve = graph_helper.buy_and_hold_curve(historic_data, starting_capital)
 
     return flask.render_template(
-        "backtest.html", ticker_html=ticker, strategy_html=strategy, equity_curve=equity_curve
+        "backtest.html", ticker_html=ticker, strategy_html=strategy, equity_curve=equity_curve, buy_and_hold_curve=buy_and_hold_curve
     )
 
 #search for tickers
 @app.route("/search_ticker")
 def search_ticker():
     query = flask.request.args.get("q", "")
-    
-    #if there is no query, return an empty JSON
-    if len(query) < 1:
-        return flask.jsonify([])
-
-    url = f"https://query2.finance.yahoo.com/v1/finance/search?q={query}"
-
-    headers = {'User-Agent': 'Mozilla/5.0'}
-    response = requests.get(url, headers=headers) #goes to the URL and gets the data
-    data = response.json() 
-
-    valid_tickers = []
-    if "quotes" in data:
-        for quote in data["quotes"]:
-            if "symbol" in quote and (quote["quoteType"] == "EQUITY" or quote["quoteType"] == "ETF"):
-                valid_tickers.append(quote["symbol"]) 
-
-    return flask.jsonify(valid_tickers)
-
-    #return flask.jsonify(yf.Lookup(query=query).get_stock(count=5).exchange.index.to_list())
-
+    return yf.Lookup(query=query).get_stock(count=5).exchange.index.to_list()
+    #one day maybe with requests and caching ...
     
 
 if __name__ == "__main__":
