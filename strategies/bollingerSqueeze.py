@@ -12,7 +12,7 @@ class BollingerSqueezeStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.highbband, self.midbband, self.lowbband]
+        return {"highbband": self.highbband, "midbband": self.midbband, "lowbband": self.lowbband}
 
     def init(self):
 

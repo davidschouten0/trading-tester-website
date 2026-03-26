@@ -12,7 +12,7 @@ class DPOStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.dpo]
+        return {"dpo": self.dpo}
 
     def init(self):
         self.ma = self.I(talib.SMA, self.data.Close, timeperiod=50)

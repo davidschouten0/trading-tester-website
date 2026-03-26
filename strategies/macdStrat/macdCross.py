@@ -10,7 +10,7 @@ class MACDStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.macd, self.signal]
+        return {"macd": self.macd, "signal": self.signal}
 
     def init(self):
         self.fastema = self.I(talib.EMA, self.data.Close, timeperiod=12)

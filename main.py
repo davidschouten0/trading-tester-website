@@ -1,20 +1,22 @@
 import flask
+import numpy as np
+import requests
 import yfinance as yf
 from backtesting import Backtest
-import requests
-from utility import graph_helper
 
+from utility import graph_helper
 from utility.strat_switcher import get_strategy
 
 app = flask.Flask(__name__)
 
-#show index
+
+# show index
 @app.route("/")
 def index():
     return flask.render_template("index.html")
 
 
-#run a backtest
+# run a backtest
 @app.route("/backtest", methods=["POST"])
 def backtest():
     ticker = flask.request.form.get("ticker")
@@ -31,7 +33,7 @@ def backtest():
     )
     historic_data = historic_data[["Open", "High", "Low", "Close", "Volume"]]
 
-    strat = get_strategy(strategy)
+    strat = get_strategy(name=strategy)
     strat.setBUY(strat, buy=0.04)
 
     starting_capital = 100000
@@ -39,6 +41,8 @@ def backtest():
     bt = Backtest(historic_data, strat, cash=starting_capital, commission=(0.2, 0))
 
     data = bt.run()
+
+    indicator_list = (data["_strategy"]).indicators()
 
     """
     this is 'data' btw:
@@ -57,19 +61,26 @@ def backtest():
     """
 
     equity_curve = graph_helper.equity_curve(data)
-    buy_and_hold_curve = graph_helper.buy_and_hold_curve(historic_data, starting_capital)
-
-    return flask.render_template(
-        "backtest.html", ticker_html=ticker, strategy_html=strategy, equity_curve=equity_curve, buy_and_hold_curve=buy_and_hold_curve
+    buy_and_hold_curve = graph_helper.buy_and_hold_curve(
+        historic_data, starting_capital
     )
 
-#search for tickers
+    return flask.render_template(
+        "backtest.html",
+        ticker_html=ticker,
+        strategy_html=strategy,
+        equity_curve=equity_curve,
+        buy_and_hold_curve=buy_and_hold_curve,
+    )
+
+
+# search for tickers
 @app.route("/search_ticker")
 def search_ticker():
     query = flask.request.args.get("q", "")
     return yf.Lookup(query=query).get_stock(count=5).exchange.index.to_list()
-    #one day maybe with requests and caching ...
-    
+    # one day maybe with requests and caching ...
+
 
 if __name__ == "__main__":
     app.run(debug=True)

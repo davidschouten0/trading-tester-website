@@ -12,7 +12,7 @@ class HMACrossStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.hma]
+        return {"hma": self.hma}
 
     def init(self):
         self.fasterwma = self.I(talib.WMA, self.data.Close, timeperiod=8)

@@ -9,7 +9,7 @@ class SarCrossStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.sar]
+        return {"sar": self.sar}
 
     def init(self):
         self.sar = self.I(talib.SAR, self.data.High, self.data.Low, scatter=True)

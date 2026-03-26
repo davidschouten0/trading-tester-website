@@ -9,7 +9,7 @@ class RSICrossStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.rsi]
+        return {"rsi": self.rsi}
 
     def init(self):
         self.rsi = self.I(talib.RSI, self.data.Close)
