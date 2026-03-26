@@ -25,3 +25,13 @@ footer {
     padding: 10px 20px;
     font-size: 0.8em;
 }
+
+/* Pfeile bei nummer feldern ausblenden */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}

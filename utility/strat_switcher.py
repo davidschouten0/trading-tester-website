@@ -61,3 +61,6 @@ STRATEGIES = {
 
 def get_strategy(name="SMA"):
     return STRATEGIES.get(name)
+
+def strategy_is_valid(strategy):
+    return strategy in STRATEGIES
