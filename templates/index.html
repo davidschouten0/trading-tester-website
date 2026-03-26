@@ -17,18 +17,24 @@
 
 <body>
     <header>
-        <div style="text-align: center;">TraderMader</div>
+        <div style="text-align: center;"> <strong> Pingu Trader 🐧 </strong> </div>
     </header>
 
     <main>
 
         <p>Select your parameters below to run the backtest.</p>
 
+        {% if error_message %}
+            <div style="background-color: #fee2e2; color: #dc2626; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: center; border: 1px solid #f87171;">
+                <strong>Fehler:</strong> {{ error_message }}
+            </div>
+        {% endif %}
+
         <form action="/backtest" method="POST">
 
             <div>
                 <label for="ticker">Ticker Symbol:</label>
-                <input type="text" id="ticker" name="ticker" list="ticker-options" placeholder="e.g., AAPL" required autocomplete="off">
+                <input type="text" id="ticker" name="ticker" list="ticker-options" placeholder="AAPL" required autocomplete="off">
                 <datalist id="ticker-options"></datalist>
             </div>
             <script>
@@ -66,9 +72,49 @@
             <div>
                 <label for="strategy">Trading Strategy:</label>
                 <select id="strategy" name="strategy">
-                    <option value="SMA">SMA (Simple Moving Average)</option>
-                    <option value="KAMA">KAMA (Kaufman's Adaptive Moving Average)</option>
+                    <option value="ADX">ADX (Average Directional Index)</option>
+                    <option value="Aroon">Aroon (Aroon Indicator)</option>
+                    <option value="ATRBreakout">ATRBreakout (Average True Range Breakout)</option>
+                    <option value="BollingerSqueeze">BollingerSqueeze (Bollinger Bands Squeeze)</option>
+                    <option value="CMO">CMO (Chande Momentum Oscillator)</option>
+                    <option value="Donchian">Donchian (Donchian Channels)</option>
+                    <option value="DPO">DPO (Detrended Price Oscillator)</option>
+                    <option value="HMACross">HMACross (Hull Moving Average Cross)</option>
+                    <option value="Ichimoku">Ichimoku (Ichimoku Cloud)</option>
+                    <option value="Kama">Kama (Kaufman's Adaptive Moving Average)</option>
+                    <option value="Keltner">Keltner (Keltner Channels)</option>
+                    <option value="MACD">MACD (Moving Average Convergence Divergence)</option>
+                    <option value="MACDPullback">MACDPullback (MACD Pullback Strategy)</option>
+                    <option value="MACDSignalZero">MACDSignalZero (MACD Signal Zero Cross)</option>
+                    <option value="MACDZero">MACDZero (MACD Zero Cross)</option>
+                    <option value="MeanReversion">MeanReversion (Mean Reversion Strategy)</option>
+                    <option value="Momentum">Momentum (Momentum Cross)</option>
+                    <option value="MovingAverage">MovingAverage (Moving Average Cross)</option>
+                    <option value="RSI">RSI (Relative Strength Index)</option>
+                    <option value="RVI">RVI (Relative Vigor Index)</option>
+                    <option value="SAR">SAR (Parabolic SAR Cross)</option>
+                    <option value="SMA" selected>SMA (Simple Moving Average)</option>
+                    <option value="Stochastic">Stochastic (Stochastic Oscillator)</option>
+                    <option value="TEMA">TEMA (Triple Exponential Moving Average)</option>
+                    <option value="TRIX">TRIX (Triple Exponential Average)</option>
+                    <option value="UltimateOscillator">UltimateOscillator (Ultimate Oscillator)</option>
+                    <option value="VWAP">VWAP (Volume Weighted Average Price)</option>
+                    <option value="Williams">Williams (Williams %R)</option>
                 </select>
+            </div>
+
+            <br>
+
+            <div>
+                <label for="cash">Starting Cash ($):</label>
+                <input type="number" id="cash" placeholder="100000" required autocomplete="off" min="1" max="10000000">
+            </div>
+
+            <br>
+
+            <div>
+                <label for="equity_per_trade">How much equity (in %) is used per trade:</label>
+                <input type="number" id="equity_per_trade" placeholder="5" required autocomplete="off" min="0.01" max="100" step="any">
             </div>
 
             <br>
@@ -80,7 +126,7 @@
     </main>
 
     <footer>
-
+        <p>Impressum | Kontakt | © 2026</p>
     </footer>
 
 </body>
