@@ -10,7 +10,7 @@ class TEMACrossStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.tema]
+        return {"tema": self.tema}
 
     def init(self):
         self.tema = self.I(talib.TEMA, self.data.Close)

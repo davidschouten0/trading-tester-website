@@ -10,7 +10,7 @@ class CMOStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.cmo, self.signal50, self.signal200]
+        return {"cmo": self.cmo, "signal50": self.signal50, "signal200": self.signal200}
 
     def init(self):
         self.cmo = self.I(talib.CMO, self.data.Close)

@@ -9,7 +9,7 @@ class AdxStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.adx, self.diplus, self.diminus]
+        return {"adx": self.adx, "diplus": self.diplus, "diminus": self.diminus}
 
     def init(self):
         # upmove = self.data.High[-1]- self.data.High[-2]

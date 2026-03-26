@@ -11,7 +11,7 @@ class RVIStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.rvi, self.signal]
+        return {"rvi": self.rvi, "signal": self.signal}
 
     def init(self):
 

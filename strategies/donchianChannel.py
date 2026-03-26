@@ -11,7 +11,7 @@ class DonchianStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.upper, self.lower, self.middle]
+        return {"upper": self.upper, "lower": self.lower, "middle": self.middle}
 
     def init(self):
         self.upper = self.I(talib.MAX, self.data.High, timeperiod=20)

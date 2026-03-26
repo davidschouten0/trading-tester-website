@@ -10,7 +10,7 @@ class KeltnerStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.keltner, self.upline, self.downline]
+        return {"keltner": self.keltner, "upline": self.upline, "downline": self.downline}
 
     def init(self):
         self.typicalprice = self.I(

@@ -12,12 +12,12 @@ class IchimokuCloudStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [
-            self.tenkan,
-            self.kijun,
-            self.senkouA_lead,
-            self.senkouB_lead,
-        ]
+        return {
+            "tenkan": self.tenkan,
+            "kijun": self.kijun,
+            "senkouA_lead": self.senkouA_lead,
+            "senkouB_lead": self.senkouB_lead,
+        }
         # idk if need pass self.senkouA, self.senkouB,
 
     def init(self):

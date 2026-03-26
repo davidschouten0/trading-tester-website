@@ -10,7 +10,7 @@ class MACDzeroCrossStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.macd]
+        return {"macd": self.macd}
 
     def init(self):
         self.fastema = self.I(talib.EMA, self.data.Close, timeperiod=12)

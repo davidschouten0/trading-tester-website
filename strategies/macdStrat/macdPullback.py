@@ -10,7 +10,7 @@ class MACDPullbackStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.macd, self.sma]
+        return {"macd": self.macd, "sma": self.sma}
 
     def init(self):
         self.fastema = self.I(talib.EMA, self.data.Close, timeperiod=12)

@@ -10,7 +10,7 @@ class StochasticStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.kpercent, self.dpercent]
+        return {"kpercent": self.kpercent, "dpercent": self.dpercent}
 
     def init(self):
         last5low = self.I(talib.MIN, self.data.Low, timeperiod=5)

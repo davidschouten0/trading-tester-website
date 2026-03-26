@@ -9,7 +9,7 @@ class SmaCrossStrategy(Strategy):
         self.buy_amount = buy
 
     def indicators(self):
-        return [self.sma]
+        return {"sma": self.sma}
 
     def init(self):
         self.sma = self.I(talib.SMA, self.data.Close)
