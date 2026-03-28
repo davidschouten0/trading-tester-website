@@ -46,6 +46,18 @@ def backtest():
     except ValueError:
         return flask.render_template("index.html", error_message=f"Please enter a valid number for the percentage per trade. (\"{equity_per_trade}\" is not a good input)")   
 
+    #period
+    period_input = flask.request.form.get("period", "1y")
+
+    valid_periods = ["1mo", "3mo", "6mo", "ytd", "1y", "2y", "max"]
+    if period_input not in valid_periods:
+        period_input = "1y"
+
+    if period_input == "max":
+        fetch_interval = "1d"
+    else:
+        fetch_interval = "1h"
+
     #ticker
     ticker = flask.request.form.get("ticker", "AAPL")
 
@@ -53,7 +65,7 @@ def backtest():
 
     # region get historic data from yahoo finance
 
-    historic_data = yf.download(ticker, period="ytd", interval="1h")
+    historic_data = yf.download(ticker, period=period_input, interval=fetch_interval)
 
     #problemhandling with bad data
     if historic_data.empty:
