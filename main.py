@@ -1,6 +1,5 @@
 import flask
 import numpy as np
-import requests
 import yfinance as yf
 from backtesting import Backtest
 
@@ -48,11 +47,9 @@ def backtest():
 
     #period
     period_input = flask.request.form.get("period", "1y")
-
     valid_periods = ["1mo", "3mo", "6mo", "ytd", "1y", "2y", "max"]
     if period_input not in valid_periods:
-        period_input = "1y"
-
+        return flask.render_template("index.html", error_message=f"Please enter a valid period. (\"{equity_per_trade}\" is not a supported time period)")
     if period_input == "max":
         fetch_interval = "1d"
     else:
@@ -71,9 +68,11 @@ def backtest():
     if historic_data.empty:
         return flask.render_template("index.html", error_message=f"Den Ticker \"{ticker}\" gibt es nicht oder er hat keine Daten.")
 
-    historic_data = (
-        historic_data.droplevel("Ticker", axis=1).reset_index().set_index("Datetime")
-    )
+    historic_data = historic_data.droplevel("Ticker", axis=1).reset_index()
+
+    date_col = historic_data.columns[0] 
+    historic_data = historic_data.set_index(date_col)
+    
     historic_data = historic_data[["Open", "High", "Low", "Close", "Volume"]]
 
 
@@ -119,6 +118,7 @@ def backtest():
         "backtest.html",
         ticker_html=ticker,
         strategy_html=strategy, 
+        strategy_description=get_strategy_description(strategy),
         master_json=master_json
     )
 
