@@ -35,3 +35,8 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.js-plotly-plot .plotly, 
+.js-plotly-plot .plotly .cursor-crosshair {
+    cursor: none !important;
+}
