@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
 
-    <title>Trading Strategy Tester</title>
+    <title>Configure</title>
 </head>
 
 
@@ -33,7 +31,7 @@
         <form action="/backtest" method="POST">
 
             <div>
-                <label for="ticker">Ticker Symbol:</label>
+                <label for="ticker">Ticker:</label>
                 <input type="text" id="ticker" name="ticker" list="ticker-options" placeholder="AAPL" required autocomplete="off">
                 <datalist id="ticker-options"></datalist>
             </div>
@@ -113,22 +111,22 @@
             <br>
 
             <div>
-                <label for="equity_per_trade">How much equity (in %) is used per trade:</label>
+                <label for="equity_per_trade">Equity per trade (%)</label>
                 <input type="number" id="equity_per_trade" placeholder="5" required autocomplete="off" min="0.01" max="100" step="any">
             </div>
 
             <br>
 
             <div class="input-group">
-                <label for="period">Zeitraum:</label>
+                <label for="period">Period:</label>
                 <select name="period" id="period">
-                    <option value="1mo">1 Monat</option>
-                    <option value="3mo">3 Monate</option>
-                    <option value="6mo">6 Monate</option>
+                    <option value="1mo">1 month</option>
+                    <option value="3mo">3 months</option>
+                    <option value="6mo">6 months</option>
                     <option value="ytd">Year-to-Date</option>
-                    <option value="1y" selected>1 Jahr</option>
-                    <option value="2y">2 Jahre </option>
-                    <option value="max">Maximal (Achtung: Yu-Gi-Oh Timerule)</option>
+                    <option value="1y" selected>1 year</option>
+                    <option value="2y">2 years </option>
+                    <option value="max">Maximum (Achtung: Yu-Gi-Oh Timerule)</option>
                 </select>
             </div>
 
@@ -141,7 +139,7 @@
     </main>
 
     <footer>
-        <p>Impressum | Kontakt | © 2026</p>
+        <p>© 2026</p>
     </footer>
 
 </body>
