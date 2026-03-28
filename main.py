@@ -4,9 +4,9 @@ import requests
 import yfinance as yf
 from backtesting import Backtest
 
-from utility.strategies import get_strategy
-from utility.strategies import strategy_is_valid
-from utility.strategies import get_strategy_description
+from utility.strategy_switcher import get_strategy
+from utility.strategy_switcher import strategy_is_valid
+from utility.strategy_switcher import get_strategy_description
 
 from utility import graph_helper
 
@@ -23,7 +23,7 @@ def index():
 @app.route("/backtest", methods=["POST"])
 def backtest():
 
-    # get the infos, and validate them
+    # region get the infos, and validate them
     
     #strat
     strategy = flask.request.form.get("strategy", "SMA")
@@ -49,8 +49,9 @@ def backtest():
     #ticker
     ticker = flask.request.form.get("ticker", "AAPL")
 
-    
-    # get historic data from yahoo finance
+    # endregion
+
+    # region get historic data from yahoo finance
 
     historic_data = yf.download(ticker, period="ytd", interval="1h")
 
@@ -67,6 +68,7 @@ def backtest():
     strat = get_strategy(name=strategy)
     strat.setBUY(strat, buy=0.04)
 
+    # endregion
 
     # configure the strategy and run the backtest
 
@@ -75,12 +77,13 @@ def backtest():
 
     starting_capital = float(cash)
 
-    bt = Backtest(historic_data, strat, cash=starting_capital, commission=(0.2, 0))
+    bt = Backtest(historic_data, strat, cash=starting_capital, commission=(0.2, 0), finalize_trades=True)
 
     data = bt.run()
 
     indicator_list = (data["_strategy"]).indicators()
 
+    # region data columns
     """
     this is 'data' btw:
 
@@ -96,26 +99,15 @@ def backtest():
        '_equity_curve', '_trades'],
       dtype='str')
     """
+    # endregion
 
-
-    # turn the data in something plottable
-
-    description = get_strategy_description(strategy=strategy)
-
-    equity_curve = graph_helper.equity_curve(data)
-
-
-    buy_and_hold_curve = graph_helper.buy_and_hold_curve(historic_data, starting_capital)
-
-    #fuer den fetten graphen brauch ich: candles (x), buy/sell signals (x), equity curve (\/)
+    master_json = graph_helper.create_master_json(historic_data, data, indicator_list, starting_capital)
 
     return flask.render_template(
         "backtest.html",
         ticker_html=ticker,
         strategy_html=strategy, 
-        equity_curve=equity_curve, 
-        buy_and_hold_curve=buy_and_hold_curve, 
-        description=description
+        master_json=master_json
     )
 
 # search for tickers

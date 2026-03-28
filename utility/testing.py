@@ -89,3 +89,5 @@ def benchmar_ticker2():
     print(
         f"Faster: {'Method 1' if time1 < time2 else 'Method 2'} ({abs(time1 - time2) / max(time1, time2) * 100:.1f}% faster)"
     )
+
+run_backtest()
