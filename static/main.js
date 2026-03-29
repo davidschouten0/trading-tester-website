@@ -8,13 +8,23 @@ const dates = rawData.map(row => {
     const rawString = row.Datetime || row.Date;
     const d = new Date(rawString);
     
-    // Wir formatieren das Datum DIREKT in JavaScript exakt so, wie du es willst.
-    // Ausgabe wird exakt: "Nov 5, 2026"
-    return d.toLocaleDateString('en-US', {
-        month: 'short', 
-        day: 'numeric',
-        year: 'numeric' // Das verhindert den Spaghetti-Fehler!
+    // 1. Wir bauen immer das saubere Datum: "Mar 2, 2026"
+    let dateString = d.toLocaleDateString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric'
     });
+
+    // 2. Wir prüfen: Gibt es eine Uhrzeit, die NICHT Mitternacht (00:00) ist?
+    if (d.getHours() !== 0 || d.getMinutes() !== 0) {
+        // Wenn ja, holen wir die Uhrzeit (z.B. "15:30")
+        let timeString = d.toLocaleTimeString('en-US', {
+            hour: '2-digit', minute: '2-digit', hour12: false
+        });
+        // Und kleben sie ans Datum dran: "Mar 2, 2026 15:30"
+        return `${dateString} ${timeString}`;
+    }
+
+    // Wenn es Mitternacht ist (Tagesdaten), bleibt es einfach bei "Mar 2, 2026"
+    return dateString;
 });
 
 // Daten entpacken
