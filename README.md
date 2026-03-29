@@ -19,6 +19,14 @@ halt einfach eine Webseite, bei der man einen stock auswählen kann und eine Str
 
 ---
 
+*style:*
+vars:
+camelCase nuh uh, PascalCase NUH UH, kebab-case-also-nuh-uh
+only_like_this (pls)
+
+
+
+---
 
 TODOs:
   - maybe also different chart than candlestick, eg. heikin ashi

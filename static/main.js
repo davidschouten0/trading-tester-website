@@ -17,38 +17,30 @@ function formatMyDate(rawString) {
     return dateString;
 }
 
-// 1. Die Engine bekommt die Uhrzeit (Dein bisheriger Code bleibt hier exakt so!)
 const dates = rawData.map(row => formatMyDate(row.Datetime || row.Date));
 
-// ==========================================================
-// === DER MAGISCHE TRICK FÜR DIE X-ACHSE ===
-// ==========================================================
+//#region get data
 const myTickVals = [];
 const myTickText = [];
-const numberOfTicks = 6; // Wie viele Datums-Stempel unten angezeigt werden sollen
+const numberOfTicks = 6; // amount of date stamps
 const step = Math.max(1, Math.floor(dates.length / numberOfTicks));
 
 for (let i = 0; i < dates.length; i += step) {
-    // Die exakte, unsichtbare ID für Plotly (MIT Uhrzeit)
     myTickVals.push(dates[i]); 
-    
-    // Wir schneiden den Text nach dem 3. Leerzeichen ab (entfernt die Uhrzeit!)
     let cleanDate = dates[i].split(' ').slice(0, 3).join(' '); 
-    myTickText.push(cleanDate); // Das ist das, was du unten auf der Achse sehen wirst
+    myTickText.push(cleanDate);
 }
 
-// Daten entpacken
+
 const equityStrat = rawData.map(row => row.Equity_Strat);
 const equityBuyAndHold = rawData.map(row => row.Equity_BnH);
 const opens = rawData.map(row => row.Open);
 const highs = rawData.map(row => row.High);
 const lows = rawData.map(row => row.Low);
 const closes = rawData.map(row => row.Close);
+//#endregion
 
-
-// ==========================================================
-// 2. DAS ULTIMATIVE BASIS-LAYOUT (DRY)
-// ==========================================================
+//#region baselayouts
 const crosshairSettings = {
     showspikes: true,
     spikemode: 'across', 
@@ -72,12 +64,11 @@ const baseLayout = {
 
     xaxis: { 
         title: 'Datum', 
-        type: 'category', // Dein heiliger Gral für die Wochenenden!
+        type: 'category', // dont touch!!!!!!
         
-        // HIER KOMMT UNSERE MASKE ZUM EINSATZ:
         tickmode: 'array',
-        tickvals: myTickVals, // Interne Logik
-        ticktext: myTickText, // Das, was für den User gedruckt wird
+        tickvals: myTickVals, 
+        ticktext: myTickText,
         
         rangeslider: { visible: false },
         showgrid: true, 
@@ -85,11 +76,9 @@ const baseLayout = {
         ...crosshairSettings 
     }
 };
+//#endregion
 
-
-// ==========================================================
-// 3. GRAPH 1: EQUITY CURVE
-// ==========================================================
+//#region equity vs buy and hold 
 const traceStrat = {
     x: dates, y: equityStrat,
     type: 'scatter', mode: 'lines',
@@ -105,23 +94,19 @@ const traceBuyAndHold = {
 };
 
 const layoutEquity = {
-    ...baseLayout, // Erbt alles von oben!
+    ...baseLayout,
     title: 'Kapitalentwicklung (Equity Curve)',
     yaxis: { 
         title: 'Kontostand ($)', 
         showgrid: true, gridcolor: '#e5e7eb',
-        // Entferne crosshairSettings von der Y-Achse, 
-        // da 'x unified' keine Y-Crosshairs für die Info-Box benötigt
         ...crosshairSettings
     }
 };
+//#endregion
 
 Plotly.newPlot("equity_curve", [traceStrat, traceBuyAndHold], layoutEquity, {responsive: true});
 
-
-// ==========================================================
-// 4. GRAPH 2: PRICE CHART (CANDLES)
-// ==========================================================
+//#region buy signals
 const traceCandles = {
     x: dates,
     open: opens, high: highs, low: lows, close: closes,
@@ -129,13 +114,11 @@ const traceCandles = {
 };
 
 const layoutPrice = {
-    ...baseLayout, // Erbt alles von oben!
+    ...baseLayout, 
     title: 'Fetter Price Chart',
     yaxis: { 
         title: 'Preis ($)', 
         showgrid: true, gridcolor: '#e5e7eb',
-        // Entferne crosshairSettings von der Y-Achse, 
-        // da 'x unified' keine Y-Crosshairs für die Info-Box benötigt
         ...crosshairSettings
     }
 };
@@ -148,7 +131,6 @@ const sellPrices = [];
 const sellTexts = [];
 const gap = 0.005;
 
-// Trades durchlaufen und Buy/Sell Punkte trennen
 trades.forEach(trade => {
     let entryTimeFormatted = formatMyDate(trade.EntryTime);
     let exitTimeFormatted = formatMyDate(trade.ExitTime);
@@ -173,23 +155,21 @@ trades.forEach(trade => {
     }
 });
 
-// Trace für die Käufe (Grüne Pfeile)
 const traceBuys = {
     x: buyDates,
     y: buyPrices,
     type: 'scatter',
-    mode: 'markers', // Wichtig: markers statt lines
+    mode: 'markers',
     name: 'Buy',
     marker: {
-        symbol: 'triangle-up', // Dreieck nach oben
-        color: '#10b981',      // Saftiges Grün
-        size: 14,              // Schön groß
-        line: { width: 1, color: 'black' } // Leichte Umrandung für besseren Kontrast
+        symbol: 'triangle-up', 
+        color: '#10b981',     
+        size: 14,            
+        line: { width: 1, color: 'black' } 
     },
     hoverinfo: 'x+y'
 };
 
-// Trace für die Verkäufe (Rote Pfeile)
 const traceSells = {
     x: sellDates,
     y: sellPrices,
@@ -197,12 +177,14 @@ const traceSells = {
     mode: 'markers',
     name: 'Sell',
     marker: {
-        symbol: 'triangle-down', // Dreieck nach unten
-        color: '#ef4444',        // Kräftiges Rot
+        symbol: 'triangle-down',
+        color: '#ef4444',      
         size: 14,
         line: { width: 1, color: 'black' }
     },
     hoverinfo: 'x+y'
 };
+
+//#endregion
 
 Plotly.newPlot("price_chart", [traceCandles, traceBuys, traceSells], layoutPrice, {responsive: true});
