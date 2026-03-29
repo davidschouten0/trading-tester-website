@@ -13,6 +13,7 @@
     
     <script>
         window.BACKTEST_DATA = {{ master_json | safe }};
+        window.TRADES_DATA = {{ trades_json | safe }};
         window.STRATEGY = "{{ strategy_html }}";
     </script>
 

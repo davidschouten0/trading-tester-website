@@ -1,31 +1,41 @@
-// ==========================================================
-// 1. DATEN VORBEREITEN
-// ==========================================================
 const rawData = window.BACKTEST_DATA;
+const trades = window.TRADES_DATA || [];
 const strategy = window.STRATEGY;
 
-const dates = rawData.map(row => {
-    const rawString = row.Datetime || row.Date;
+function formatMyDate(rawString) {
     const d = new Date(rawString);
-    
-    // 1. Wir bauen immer das saubere Datum: "Mar 2, 2026"
     let dateString = d.toLocaleDateString('en-US', {
         month: 'short', day: 'numeric', year: 'numeric'
     });
 
-    // 2. Wir prüfen: Gibt es eine Uhrzeit, die NICHT Mitternacht (00:00) ist?
     if (d.getHours() !== 0 || d.getMinutes() !== 0) {
-        // Wenn ja, holen wir die Uhrzeit (z.B. "15:30")
         let timeString = d.toLocaleTimeString('en-US', {
             hour: '2-digit', minute: '2-digit', hour12: false
         });
-        // Und kleben sie ans Datum dran: "Mar 2, 2026 15:30"
         return `${dateString} ${timeString}`;
     }
-
-    // Wenn es Mitternacht ist (Tagesdaten), bleibt es einfach bei "Mar 2, 2026"
     return dateString;
-});
+}
+
+// 1. Die Engine bekommt die Uhrzeit (Dein bisheriger Code bleibt hier exakt so!)
+const dates = rawData.map(row => formatMyDate(row.Datetime || row.Date));
+
+// ==========================================================
+// === DER MAGISCHE TRICK FÜR DIE X-ACHSE ===
+// ==========================================================
+const myTickVals = [];
+const myTickText = [];
+const numberOfTicks = 6; // Wie viele Datums-Stempel unten angezeigt werden sollen
+const step = Math.max(1, Math.floor(dates.length / numberOfTicks));
+
+for (let i = 0; i < dates.length; i += step) {
+    // Die exakte, unsichtbare ID für Plotly (MIT Uhrzeit)
+    myTickVals.push(dates[i]); 
+    
+    // Wir schneiden den Text nach dem 3. Leerzeichen ab (entfernt die Uhrzeit!)
+    let cleanDate = dates[i].split(' ').slice(0, 3).join(' '); 
+    myTickText.push(cleanDate); // Das ist das, was du unten auf der Achse sehen wirst
+}
 
 // Daten entpacken
 const equityStrat = rawData.map(row => row.Equity_Strat);
@@ -39,27 +49,20 @@ const closes = rawData.map(row => row.Close);
 // ==========================================================
 // 2. DAS ULTIMATIVE BASIS-LAYOUT (DRY)
 // ==========================================================
-
-// Der Fadenkreuz-Baustein (wird für X- und Y-Achse genutzt)
 const crosshairSettings = {
     showspikes: true,
     spikemode: 'across', 
-    spikesnap: 'cursor', // Die gestrichelte Linie folgt IMMER exakt deiner unsichtbaren Maus
+    spikesnap: 'cursor', 
     spikethickness: 1,   
     spikedash: 'dash',   
     spikecolor: '#9ca3af'
 };
 
-// Das Master-Layout für BEIDE Graphen
 const baseLayout = {
     paper_bgcolor: 'transparent', 
     plot_bgcolor: 'transparent',
     font: { family: 'JetBrains Mono, sans-serif' }, 
-    
-    // DIE KORREKTUR: Verwende 'x unified', um eine feststehende Info-Box 
-    // zu erstellen, die dem X-Cursor folgt und alle Daten anzeigt.
-    hovermode: 'x unified', // Dies ist der TradingView-Style, den du wolltest.
-    
+    hovermode: 'x unified', 
     hoverlabel: {
         bgcolor: '#ffffff', 
         bordercolor: '#d1d5db', 
@@ -67,18 +70,18 @@ const baseLayout = {
     },
     margin: { l: 50, r: 20, t: 50, b: 50 },
 
-    // Gemeinsame X-Achse (Gilt für Equity UND Candles)
     xaxis: { 
         title: 'Datum', 
-        type: 'category', // Wichtig: Zieht Wochenenden bei BEIDEN Graphen zusammen!
-        nticks: 5, 
+        type: 'category', // Dein heiliger Gral für die Wochenenden!
+        
+        // HIER KOMMT UNSERE MASKE ZUM EINSATZ:
+        tickmode: 'array',
+        tickvals: myTickVals, // Interne Logik
+        ticktext: myTickText, // Das, was für den User gedruckt wird
+        
         rangeslider: { visible: false },
         showgrid: true, 
         gridcolor: '#e5e7eb', 
-        tickformat: '%b %-d, %Y', 
-        
-        // NEU: Das macht das Hover-Label (am Fadenkreuz) exakt gleich!
-        hoverformat: '%b %-d, %Y',
         ...crosshairSettings 
     }
 };
@@ -137,4 +140,69 @@ const layoutPrice = {
     }
 };
 
-Plotly.newPlot("price_chart", [traceCandles], layoutPrice, {responsive: true});
+const buyDates = [];
+const buyPrices = [];
+const buyTexts = []; 
+const sellDates = [];
+const sellPrices = [];
+const sellTexts = [];
+const gap = 0.005;
+
+// Trades durchlaufen und Buy/Sell Punkte trennen
+trades.forEach(trade => {
+    let entryTimeFormatted = formatMyDate(trade.EntryTime);
+    let exitTimeFormatted = formatMyDate(trade.ExitTime);
+
+    if (trade.Size > 0) {
+        buyDates.push(entryTimeFormatted);
+        buyPrices.push(trade.EntryPrice * (1 - gap));
+        buyTexts.push(`Kauf: $${trade.EntryPrice.toFixed(2)}`);
+        
+        sellDates.push(exitTimeFormatted);
+        sellPrices.push(trade.ExitPrice * (1 + gap));
+        sellTexts.push(`Verkauf: $${trade.ExitPrice.toFixed(2)}`);
+    } 
+    else if (trade.Size < 0) {
+        sellDates.push(entryTimeFormatted);
+        sellPrices.push(trade.EntryPrice * (1 + gap));
+        sellTexts.push(`Sell (Short): $${trade.EntryPrice.toFixed(2)}`);
+        
+        buyDates.push(exitTimeFormatted);
+        buyPrices.push(trade.ExitPrice * (1 - gap));
+        buyTexts.push(`Buy (Cover): $${trade.ExitPrice.toFixed(2)}`);
+    }
+});
+
+// Trace für die Käufe (Grüne Pfeile)
+const traceBuys = {
+    x: buyDates,
+    y: buyPrices,
+    type: 'scatter',
+    mode: 'markers', // Wichtig: markers statt lines
+    name: 'Buy',
+    marker: {
+        symbol: 'triangle-up', // Dreieck nach oben
+        color: '#10b981',      // Saftiges Grün
+        size: 14,              // Schön groß
+        line: { width: 1, color: 'black' } // Leichte Umrandung für besseren Kontrast
+    },
+    hoverinfo: 'x+y'
+};
+
+// Trace für die Verkäufe (Rote Pfeile)
+const traceSells = {
+    x: sellDates,
+    y: sellPrices,
+    type: 'scatter',
+    mode: 'markers',
+    name: 'Sell',
+    marker: {
+        symbol: 'triangle-down', // Dreieck nach unten
+        color: '#ef4444',        // Kräftiges Rot
+        size: 14,
+        line: { width: 1, color: 'black' }
+    },
+    hoverinfo: 'x+y'
+};
+
+Plotly.newPlot("price_chart", [traceCandles, traceBuys, traceSells], layoutPrice, {responsive: true});
