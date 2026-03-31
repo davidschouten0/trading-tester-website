@@ -53,7 +53,7 @@ def backtest():
     #commission
     raw_commission = flask.request.form.get("commission", 0.2)
     try:
-        if not (0.01 <= float(raw_commission) <= 100):
+        if not (-10 <= float(raw_commission) <= 10):
             return flask.render_template("index.html", error_message=f"The commission needs to be between 0.01 and 100 (\"{raw_commission}\" is not in that range)")
     except ValueError:
         return flask.render_template("index.html", error_message=f"Please enter a valid number for the percentage per trade. (\"{raw_commission}\" is not a good input)")   
