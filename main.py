@@ -22,6 +22,11 @@ def index():
 @app.route("/backtest", methods=["POST"])
 def backtest():
 
+    print(f"\n{'='*40}")
+    print("EMPANGENE DATEN VON DER WEBSITE:")
+    print(flask.request.form)
+    print(f"{'='*40}\n")
+
     # region get the infos, and validate them
     
     #strat
@@ -44,6 +49,15 @@ def backtest():
             return flask.render_template("index.html", error_message=f"The equity per trade needs to be between 0.01 and 100 (\"{equity_per_trade}\" is not in that range)")
     except ValueError:
         return flask.render_template("index.html", error_message=f"Please enter a valid number for the percentage per trade. (\"{equity_per_trade}\" is not a good input)")   
+
+    #commission
+    raw_commission = flask.request.form.get("commission", 0.2)
+    try:
+        if not (-10 <= float(raw_commission) <= 10):
+            return flask.render_template("index.html", error_message=f"The commission needs to be between 0.01 and 100 (\"{raw_commission}\" is not in that range)")
+    except ValueError:
+        return flask.render_template("index.html", error_message=f"Please enter a valid number for the percentage per trade. (\"{raw_commission}\" is not a good input)")   
+    commission = float(raw_commission)/100
 
     #period
     period_input = flask.request.form.get("period", "1y")
@@ -75,22 +89,21 @@ def backtest():
     
     historic_data = historic_data[["Open", "High", "Low", "Close", "Volume"]]
 
+    strat = get_strategy(strategy) 
+    equity_buy = float(equity_per_trade)/100
 
-    strat = get_strategy(name=strategy)
-    strat.setBUY(strat, buy=0.04)
+    if equity_buy >= 1.0:
+        equity_buy = 0.9999
 
     # endregion
 
     # configure the strategy and run the backtest
 
-    strat = get_strategy(strategy)
-    strat.setBUY(strat, buy=float(equity_per_trade)/100)
-
     starting_capital = float(cash)
 
-    bt = Backtest(historic_data, strat, cash=starting_capital, commission=(0.2, 0), finalize_trades=True)
+    bt = Backtest(historic_data, strat, cash=starting_capital, commission=commission, finalize_trades=True)
 
-    data = bt.run()
+    data = bt.run(buy_amount=equity_buy)
 
     indicator_list = (data["_strategy"]).indicators()
 
@@ -112,6 +125,8 @@ def backtest():
     """
     # endregion
 
+    trades_json = graph_helper.create_trades_json(data)
+
     master_json = graph_helper.create_master_json(historic_data, data, indicator_list, starting_capital)
 
     return flask.render_template(
@@ -119,7 +134,8 @@ def backtest():
         ticker_html=ticker,
         strategy_html=strategy, 
         strategy_description=get_strategy_description(strategy),
-        master_json=master_json
+        master_json=master_json,
+        trades_json=trades_json
     )
 
 # search for tickers

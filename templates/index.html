@@ -105,14 +105,21 @@
 
             <div>
                 <label for="cash">Starting Cash ($):</label>
-                <input type="number" id="cash" placeholder="100000" required autocomplete="off" min="1" max="10000000">
+                <input type="number" id="cash" name="cash" placeholder="100000" required autocomplete="off" min="1" max="10000000">
             </div>
 
             <br>
 
             <div>
                 <label for="equity_per_trade">Equity per trade (%)</label>
-                <input type="number" id="equity_per_trade" placeholder="5" required autocomplete="off" min="0.01" max="100" step="any">
+                <input type="number" id="equity_per_trade" name="equity_per_trade" placeholder="5" required autocomplete="off" min="0.01" max="100" step="any">
+            </div>
+
+            <br>
+
+            <div>
+                <label for="commission">Commission per trade (%)</label>
+                <input type="number" id="commission" name="commission" placeholder="0.2" required autocomplete="off" min="-9.99" max="9.99" step="any">
             </div>
 
             <br>

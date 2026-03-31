@@ -1,55 +1,60 @@
-// ==========================================================
-// 1. DATEN VORBEREITEN
-// ==========================================================
 const rawData = window.BACKTEST_DATA;
+const trades = window.TRADES_DATA || [];
 const strategy = window.STRATEGY;
 
-const dates = rawData.map(row => {
-    const rawString = row.Datetime || row.Date;
+function formatMyDate(rawString) {
     const d = new Date(rawString);
-    
-    // Wir formatieren das Datum DIREKT in JavaScript exakt so, wie du es willst.
-    // Ausgabe wird exakt: "Nov 5, 2026"
-    return d.toLocaleDateString('en-US', {
-        month: 'short', 
-        day: 'numeric',
-        year: 'numeric' // Das verhindert den Spaghetti-Fehler!
+    let dateString = d.toLocaleDateString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric'
     });
-});
 
-// Daten entpacken
+    if (d.getHours() !== 0 || d.getMinutes() !== 0) {
+        let timeString = d.toLocaleTimeString('en-US', {
+            hour: '2-digit', minute: '2-digit', hour12: false
+        });
+        return `${dateString} ${timeString}`;
+    }
+    return dateString;
+}
+
+const dates = rawData.map(row => formatMyDate(row.Datetime || row.Date));
+
+//#region get data
+const myTickVals = [];
+const myTickText = [];
+const numberOfTicks = 6; // amount of date stamps
+const step = Math.max(1, Math.floor(dates.length / numberOfTicks));
+
+for (let i = 0; i < dates.length; i += step) {
+    myTickVals.push(dates[i]); 
+    let cleanDate = dates[i].split(' ').slice(0, 3).join(' '); 
+    myTickText.push(cleanDate);
+}
+
+
 const equityStrat = rawData.map(row => row.Equity_Strat);
 const equityBuyAndHold = rawData.map(row => row.Equity_BnH);
 const opens = rawData.map(row => row.Open);
 const highs = rawData.map(row => row.High);
 const lows = rawData.map(row => row.Low);
 const closes = rawData.map(row => row.Close);
+//#endregion
 
-
-// ==========================================================
-// 2. DAS ULTIMATIVE BASIS-LAYOUT (DRY)
-// ==========================================================
-
-// Der Fadenkreuz-Baustein (wird für X- und Y-Achse genutzt)
+//#region baselayouts
 const crosshairSettings = {
     showspikes: true,
     spikemode: 'across', 
-    spikesnap: 'cursor', // Die gestrichelte Linie folgt IMMER exakt deiner unsichtbaren Maus
+    spikesnap: 'cursor', 
     spikethickness: 1,   
     spikedash: 'dash',   
     spikecolor: '#9ca3af'
 };
 
-// Das Master-Layout für BEIDE Graphen
 const baseLayout = {
     paper_bgcolor: 'transparent', 
     plot_bgcolor: 'transparent',
     font: { family: 'JetBrains Mono, sans-serif' }, 
-    
-    // DIE KORREKTUR: Verwende 'x unified', um eine feststehende Info-Box 
-    // zu erstellen, die dem X-Cursor folgt und alle Daten anzeigt.
-    hovermode: 'x unified', // Dies ist der TradingView-Style, den du wolltest.
-    
+    hovermode: 'x unified', 
     hoverlabel: {
         bgcolor: '#ffffff', 
         bordercolor: '#d1d5db', 
@@ -57,26 +62,23 @@ const baseLayout = {
     },
     margin: { l: 50, r: 20, t: 50, b: 50 },
 
-    // Gemeinsame X-Achse (Gilt für Equity UND Candles)
     xaxis: { 
         title: 'Datum', 
-        type: 'category', // Wichtig: Zieht Wochenenden bei BEIDEN Graphen zusammen!
-        nticks: 5, 
+        type: 'category', // dont touch!!!!!!
+        
+        tickmode: 'array',
+        tickvals: myTickVals, 
+        ticktext: myTickText,
+        
         rangeslider: { visible: false },
         showgrid: true, 
         gridcolor: '#e5e7eb', 
-        tickformat: '%b %-d, %Y', 
-        
-        // NEU: Das macht das Hover-Label (am Fadenkreuz) exakt gleich!
-        hoverformat: '%b %-d, %Y',
         ...crosshairSettings 
     }
 };
+//#endregion
 
-
-// ==========================================================
-// 3. GRAPH 1: EQUITY CURVE
-// ==========================================================
+//#region equity vs buy and hold 
 const traceStrat = {
     x: dates, y: equityStrat,
     type: 'scatter', mode: 'lines',
@@ -92,23 +94,19 @@ const traceBuyAndHold = {
 };
 
 const layoutEquity = {
-    ...baseLayout, // Erbt alles von oben!
+    ...baseLayout,
     title: 'Kapitalentwicklung (Equity Curve)',
     yaxis: { 
         title: 'Kontostand ($)', 
         showgrid: true, gridcolor: '#e5e7eb',
-        // Entferne crosshairSettings von der Y-Achse, 
-        // da 'x unified' keine Y-Crosshairs für die Info-Box benötigt
         ...crosshairSettings
     }
 };
+//#endregion
 
 Plotly.newPlot("equity_curve", [traceStrat, traceBuyAndHold], layoutEquity, {responsive: true});
 
-
-// ==========================================================
-// 4. GRAPH 2: PRICE CHART (CANDLES)
-// ==========================================================
+//#region buy signals
 const traceCandles = {
     x: dates,
     open: opens, high: highs, low: lows, close: closes,
@@ -116,15 +114,77 @@ const traceCandles = {
 };
 
 const layoutPrice = {
-    ...baseLayout, // Erbt alles von oben!
+    ...baseLayout, 
     title: 'Fetter Price Chart',
     yaxis: { 
         title: 'Preis ($)', 
         showgrid: true, gridcolor: '#e5e7eb',
-        // Entferne crosshairSettings von der Y-Achse, 
-        // da 'x unified' keine Y-Crosshairs für die Info-Box benötigt
         ...crosshairSettings
     }
 };
 
-Plotly.newPlot("price_chart", [traceCandles], layoutPrice, {responsive: true});
+const buyDates = [];
+const buyPrices = [];
+const buyTexts = []; 
+const sellDates = [];
+const sellPrices = [];
+const sellTexts = [];
+const gap = 0.005;
+
+trades.forEach(trade => {
+    let entryTimeFormatted = formatMyDate(trade.EntryTime);
+    let exitTimeFormatted = formatMyDate(trade.ExitTime);
+
+    if (trade.Size > 0) {
+        buyDates.push(entryTimeFormatted);
+        buyPrices.push(trade.EntryPrice * (1 - gap));
+        buyTexts.push(`Kauf: $${trade.EntryPrice.toFixed(2)}`);
+        
+        sellDates.push(exitTimeFormatted);
+        sellPrices.push(trade.ExitPrice * (1 + gap));
+        sellTexts.push(`Verkauf: $${trade.ExitPrice.toFixed(2)}`);
+    } 
+    else if (trade.Size < 0) {
+        sellDates.push(entryTimeFormatted);
+        sellPrices.push(trade.EntryPrice * (1 + gap));
+        sellTexts.push(`Sell (Short): $${trade.EntryPrice.toFixed(2)}`);
+        
+        buyDates.push(exitTimeFormatted);
+        buyPrices.push(trade.ExitPrice * (1 - gap));
+        buyTexts.push(`Buy (Cover): $${trade.ExitPrice.toFixed(2)}`);
+    }
+});
+
+const traceBuys = {
+    x: buyDates,
+    y: buyPrices,
+    type: 'scatter',
+    mode: 'markers',
+    name: 'Buy',
+    marker: {
+        symbol: 'triangle-up', 
+        color: '#10b981',     
+        size: 14,            
+        line: { width: 1, color: 'black' } 
+    },
+    hoverinfo: 'x+y'
+};
+
+const traceSells = {
+    x: sellDates,
+    y: sellPrices,
+    type: 'scatter',
+    mode: 'markers',
+    name: 'Sell',
+    marker: {
+        symbol: 'triangle-down',
+        color: '#ef4444',      
+        size: 14,
+        line: { width: 1, color: 'black' }
+    },
+    hoverinfo: 'x+y'
+};
+
+//#endregion
+
+Plotly.newPlot("price_chart", [traceCandles, traceBuys, traceSells], layoutPrice, {responsive: true});

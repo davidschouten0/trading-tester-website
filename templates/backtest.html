@@ -13,6 +13,7 @@
     
     <script>
         window.BACKTEST_DATA = {{ master_json | safe }};
+        window.TRADES_DATA = {{ trades_json | safe }};
         window.STRATEGY = "{{ strategy_html }}";
     </script>
 
@@ -31,7 +32,7 @@
     <main>
         <h1>Trading Strategy Tester</h1>
 
-        <p>You tested {{ strategy_html }} on '{{ ticker_html }}': {{ description }} </p>
+        <p>You tested {{ strategy_html }} on '{{ ticker_html }}': {{ strategy_description }} </p>
 
         <h2> {{ strategy_html }}  VS  Buy and Hold </h2>
         <div id="equity_curve"> </div>
