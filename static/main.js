@@ -38,6 +38,8 @@ const opens = rawData.map(row => row.Open);
 const highs = rawData.map(row => row.High);
 const lows = rawData.map(row => row.Low);
 const closes = rawData.map(row => row.Close);
+
+const standardKeys = ["Datetime", "Date", "Open", "High", "Low", "Close", "Volume", "Equity_Strat", "Equity_BnH"];
 //#endregion
 
 //#region baselayouts
@@ -185,6 +187,23 @@ const traceSells = {
     hoverinfo: 'x+y'
 };
 
+const firstRow = rawData[0];
+const indicatorNames = Object.keys(firstRow).filter(key => !standardKeys.includes(key));
+const dynamicIndicatorTraces = [];
+
+indicatorNames.forEach(indName => {
+    const indData = rawData.map(row => row[indName]);
+    
+    dynamicIndicatorTraces.push({
+        x: dates, 
+        y: indData,
+        type: 'scatter', 
+        mode: 'lines',
+        name: indName,
+        line: { width: 1.5 },
+        hoverinfo: 'none'
+    });
+});
 //#endregion
 
-Plotly.newPlot("price_chart", [traceCandles, traceBuys, traceSells], layoutPrice, {responsive: true});
+Plotly.newPlot("price_chart", [traceCandles, traceBuys, traceSells, ...dynamicIndicatorTraces], layoutPrice, {responsive: true});
