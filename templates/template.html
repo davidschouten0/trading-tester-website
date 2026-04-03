@@ -8,42 +8,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.plot.ly/plotly-3.4.0.min.js" charset="utf-8"></script>
-    
-    <script>
-        window.BACKTEST_DATA = {{ master_json | safe }};
-        window.TRADES_DATA = {{ trades_json | safe }};
-        window.STRATEGY = "{{ strategy_html }}";
-    </script>
 
-    <script src="../static/main.js" defer></script>
-    
-    <title>Results</title>
+    <title>Configure</title>
 </head>
 
-
 <body>
-
     <header>
         <div style="text-align: center;"> <strong> PinguTrader 🐧 </strong> </div>
     </header>
 
     <main>
-        <h1>Trading Strategy Tester</h1>
-
-        <p>You tested {{ strategy_html }} on '{{ ticker_html }}': {{ strategy_description }} </p>
-
-        <h2> {{ strategy_html }}  VS  Buy and Hold </h2>
-        <div id="equity_curve"> </div>
-
-        <h2> Buying signals </h2>
-        <div id="price_chart"></div>
     </main>
 
     <footer>
         <p>© 2026</p>
     </footer>
-
 </body>
-</html>

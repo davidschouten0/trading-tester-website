@@ -36,6 +36,7 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+/* Cursor innerhalb vom Graphen disablen */
 .js-plotly-plot .plotly, 
 .js-plotly-plot .plotly .cursor-crosshair {
     cursor: none !important;

@@ -21,12 +21,6 @@ def index():
 # run a backtest
 @app.route("/backtest", methods=["POST"])
 def backtest():
-
-    print(f"\n{'='*40}")
-    print("EMPANGENE DATEN VON DER WEBSITE:")
-    print(flask.request.form)
-    print(f"{'='*40}\n")
-
     # region get the infos, and validate them
     
     #strat

@@ -15,7 +15,7 @@
 
 <body>
     <header>
-        <div style="text-align: center;"> <strong> Pingu Trader 🐧 </strong> </div>
+        <div style="text-align: center;"> <strong> PinguTrader 🐧 </strong> </div>
     </header>
 
     <main>
@@ -29,6 +29,42 @@
         {% endif %}
 
         <form action="/backtest" method="POST">
+
+            <div>
+                <label for="strategy">Trading Strategy:</label>
+                <select id="strategy" name="strategy">
+                    <option value="ADX">ADX (Average Directional Index)</option>
+                    <option value="Aroon">Aroon (Aroon Indicator)</option>
+                    <option value="ATRBreakout">ATRBreakout (Average True Range Breakout)</option>
+                    <option value="BollingerSqueeze">BollingerSqueeze (Bollinger Bands Squeeze)</option>
+                    <option value="CMO">CMO (Chande Momentum Oscillator)</option>
+                    <option value="Donchian">Donchian (Donchian Channels)</option>
+                    <option value="DPO">DPO (Detrended Price Oscillator)</option>
+                    <option value="HMACross">HMACross (Hull Moving Average Cross)</option>
+                    <option value="Ichimoku">Ichimoku (Ichimoku Cloud)</option>
+                    <option value="Kama">Kama (Kaufman's Adaptive Moving Average)</option>
+                    <option value="Keltner">Keltner (Keltner Channels)</option>
+                    <option value="MACD">MACD (Moving Average Convergence Divergence)</option>
+                    <option value="MACDPullback">MACDPullback (MACD Pullback Strategy)</option>
+                    <option value="MACDSignalZero">MACDSignalZero (MACD Signal Zero Cross)</option>
+                    <option value="MACDZero">MACDZero (MACD Zero Cross)</option>
+                    <option value="MeanReversion">MeanReversion (Mean Reversion Strategy)</option>
+                    <option value="Momentum">Momentum (Momentum Cross)</option>
+                    <option value="MovingAverage" selected>MovingAverage (Moving Average Cross)</option>
+                    <option value="RSI">RSI (Relative Strength Index)</option>
+                    <option value="RVI">RVI (Relative Vigor Index)</option>
+                    <option value="SAR">SAR (Parabolic SAR Cross)</option>
+                    <option value="SMA">SMA (Simple Moving Average)</option>
+                    <option value="Stochastic">Stochastic (Stochastic Oscillator)</option>
+                    <option value="TEMA">TEMA (Triple Exponential Moving Average)</option>
+                    <option value="TRIX">TRIX (Triple Exponential Average)</option>
+                    <option value="UltimateOscillator">UltimateOscillator (Ultimate Oscillator)</option>
+                    <option value="VWAP">VWAP (Volume Weighted Average Price)</option>
+                    <option value="Williams">Williams (Williams %R)</option>
+                </select>
+            </div>
+
+            <br>
 
             <div>
                 <label for="ticker">Ticker:</label>
@@ -68,63 +104,6 @@
             <br>
 
             <div>
-                <label for="strategy">Trading Strategy:</label>
-                <select id="strategy" name="strategy">
-                    <option value="ADX">ADX (Average Directional Index)</option>
-                    <option value="Aroon">Aroon (Aroon Indicator)</option>
-                    <option value="ATRBreakout">ATRBreakout (Average True Range Breakout)</option>
-                    <option value="BollingerSqueeze">BollingerSqueeze (Bollinger Bands Squeeze)</option>
-                    <option value="CMO">CMO (Chande Momentum Oscillator)</option>
-                    <option value="Donchian">Donchian (Donchian Channels)</option>
-                    <option value="DPO">DPO (Detrended Price Oscillator)</option>
-                    <option value="HMACross">HMACross (Hull Moving Average Cross)</option>
-                    <option value="Ichimoku">Ichimoku (Ichimoku Cloud)</option>
-                    <option value="Kama">Kama (Kaufman's Adaptive Moving Average)</option>
-                    <option value="Keltner">Keltner (Keltner Channels)</option>
-                    <option value="MACD">MACD (Moving Average Convergence Divergence)</option>
-                    <option value="MACDPullback">MACDPullback (MACD Pullback Strategy)</option>
-                    <option value="MACDSignalZero">MACDSignalZero (MACD Signal Zero Cross)</option>
-                    <option value="MACDZero">MACDZero (MACD Zero Cross)</option>
-                    <option value="MeanReversion">MeanReversion (Mean Reversion Strategy)</option>
-                    <option value="Momentum">Momentum (Momentum Cross)</option>
-                    <option value="MovingAverage">MovingAverage (Moving Average Cross)</option>
-                    <option value="RSI">RSI (Relative Strength Index)</option>
-                    <option value="RVI">RVI (Relative Vigor Index)</option>
-                    <option value="SAR">SAR (Parabolic SAR Cross)</option>
-                    <option value="SMA" selected>SMA (Simple Moving Average)</option>
-                    <option value="Stochastic">Stochastic (Stochastic Oscillator)</option>
-                    <option value="TEMA">TEMA (Triple Exponential Moving Average)</option>
-                    <option value="TRIX">TRIX (Triple Exponential Average)</option>
-                    <option value="UltimateOscillator">UltimateOscillator (Ultimate Oscillator)</option>
-                    <option value="VWAP">VWAP (Volume Weighted Average Price)</option>
-                    <option value="Williams">Williams (Williams %R)</option>
-                </select>
-            </div>
-
-            <br>
-
-            <div>
-                <label for="cash">Starting Cash ($):</label>
-                <input type="number" id="cash" name="cash" placeholder="100000" required autocomplete="off" min="1" max="10000000">
-            </div>
-
-            <br>
-
-            <div>
-                <label for="equity_per_trade">Equity per trade (%)</label>
-                <input type="number" id="equity_per_trade" name="equity_per_trade" placeholder="5" required autocomplete="off" min="0.01" max="100" step="any">
-            </div>
-
-            <br>
-
-            <div>
-                <label for="commission">Commission per trade (%)</label>
-                <input type="number" id="commission" name="commission" placeholder="0.2" required autocomplete="off" min="-9.99" max="9.99" step="any">
-            </div>
-
-            <br>
-
-            <div class="input-group">
                 <label for="period">Period:</label>
                 <select name="period" id="period">
                     <option value="1mo">1 month</option>
@@ -136,6 +115,34 @@
                     <option value="max">Maximum (Achtung: Yu-Gi-Oh Timerule)</option>
                 </select>
             </div>
+
+            <br>
+
+            <details>
+                <summary>Advanced Settings:</summary>
+
+                <br>
+
+                <div>
+                    <label for="cash">Starting Cash ($):</label>
+                    <input type="number" id="cash" name="cash" placeholder="100000" value="100000" required autocomplete="off" min="1" max="10000000">
+                </div>
+
+                <br>
+
+                <div>
+                    <label for="equity_per_trade">Equity per trade (%)</label>
+                    <input type="number" id="equity_per_trade" name="equity_per_trade" placeholder="5" value="5" required autocomplete="off" min="0.01" max="100" step="any">
+                </div>
+
+                <br>
+
+                <div>
+                    <label for="commission">Commission per trade (%)</label>
+                    <input type="number" id="commission" name="commission" placeholder="0.2" value="0.2" required autocomplete="off" min="-9.99" max="9.99" step="any">
+                </div>
+
+            </details>
 
             <br>
 
