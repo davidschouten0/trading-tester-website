@@ -218,3 +218,4 @@ Plotly.newPlot("price_chart", [traceCandles, traceBuys, traceSells, ...dynamicIn
 const bigString = ""
 const description = explanation.map(row => row.description)
 const sharpe = explanation.map(row => row.Sharpe_Ratio) // how are spaces interpreted when turning the data to json
+

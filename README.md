@@ -28,6 +28,12 @@ only_like_this (pls)
 
 ---
 
+erklaerungen einfuegen (graphen helfen dem verstaendnis, muessen aber auch interpretiert werden)
+erklaerung mit sharpe ration, wann die strategie kauft, wann sie verkauft u.s.w.
+mehr text
+eigener graph mit manchen indikatoren
+
+
 TODOs:
   - maybe also different chart than candlestick, eg. heikin ashi
   - create own strategies
@@ -38,6 +44,9 @@ TODOs:
   - Implement strategies from daytraders and course sellers? 
 
   - launch
+
+  - vergleichen von strategien
+
 
 
 Implementing Strategies:
