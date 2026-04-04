@@ -7,7 +7,7 @@ from utility.strategy_switcher import get_strategy
 from utility.strategy_switcher import strategy_is_valid
 from utility.strategy_switcher import get_strategy_description
 
-from utility import graph_helper
+from utility import json_helper
 
 app = flask.Flask(__name__)
 
@@ -119,17 +119,17 @@ def backtest():
     """
     # endregion
 
-    trades_json = graph_helper.create_trades_json(data)
+    trades_json = json_helper.create_trades_json(data)
 
-    master_json = graph_helper.create_master_json(historic_data, data, indicator_list, starting_capital)
+    master_json = json_helper.create_master_json(historic_data, data, indicator_list, starting_capital)
+
+    explanation_json = json_helper.create_explanation_json(data, ticker)
 
     return flask.render_template(
         "backtest.html",
-        ticker_html=ticker,
-        strategy_html=strategy, 
-        strategy_description=get_strategy_description(strategy),
         master_json=master_json,
-        trades_json=trades_json
+        trades_json=trades_json,
+        explanation_json=explanation_json
     )
 
 # search for tickers

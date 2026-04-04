@@ -1,6 +1,6 @@
 const rawData = window.BACKTEST_DATA;
 const trades = window.TRADES_DATA || [];
-const strategy = window.STRATEGY;
+const explanation = window.EXPLANATION_DATA || [];
 
 function formatMyDate(rawString) {
     const d = new Date(rawString);
@@ -38,6 +38,9 @@ const opens = rawData.map(row => row.Open);
 const highs = rawData.map(row => row.High);
 const lows = rawData.map(row => row.Low);
 const closes = rawData.map(row => row.Close);
+
+const strategy = explanation.map(row => row.strategy)
+const ticker = explanation.map(row => row.ticker)
 
 const standardKeys = ["Datetime", "Date", "Open", "High", "Low", "Close", "Volume", "Equity_Strat", "Equity_BnH"];
 //#endregion
@@ -207,3 +210,11 @@ indicatorNames.forEach(indName => {
 //#endregion
 
 Plotly.newPlot("price_chart", [traceCandles, traceBuys, traceSells, ...dynamicIndicatorTraces], layoutPrice, {responsive: true});
+
+
+
+//create a string to shove into div
+
+const bigString = ""
+const description = explanation.map(row => row.description)
+const sharpe = explanation.map(row => row.Sharpe_Ratio) // how are spaces interpreted when turning the data to json

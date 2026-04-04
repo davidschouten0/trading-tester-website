@@ -14,7 +14,7 @@
     <script>
         window.BACKTEST_DATA = {{ master_json | safe }};
         window.TRADES_DATA = {{ trades_json | safe }};
-        window.STRATEGY = "{{ strategy_html }}";
+        window.EXPLANATION_DATA = {{ exlpanation_json | safe }};
     </script>
 
     <script src="../static/main.js" defer></script>
@@ -39,6 +39,9 @@
 
         <h2> Buying signals </h2>
         <div id="price_chart"></div>
+
+        <h2> Explanation </h2>
+        <div id="explanation"></div>
     </main>
 
     <footer>

@@ -20,17 +20,19 @@
 
     <main>
 
-        <p>Select your parameters below to run the backtest.</p>
-
+        <br>
+    
         {% if error_message %}
             <div style="background-color: #fee2e2; color: #dc2626; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: center; border: 1px solid #f87171;">
                 <strong>Fehler:</strong> {{ error_message }}
             </div>
         {% endif %}
 
+        <p>Select your parameters below to run the backtest.</p>
+
         <form action="/backtest" method="POST">
 
-            <div>
+            <div class="input">
                 <label for="strategy">Trading Strategy:</label>
                 <select id="strategy" name="strategy">
                     <option value="ADX">ADX (Average Directional Index)</option>
@@ -66,7 +68,7 @@
 
             <br>
 
-            <div>
+            <div class="input">
                 <label for="ticker">Ticker:</label>
                 <input type="text" id="ticker" name="ticker" list="ticker-options" placeholder="AAPL" required autocomplete="off">
                 <datalist id="ticker-options"></datalist>
@@ -103,7 +105,7 @@
 
             <br>
 
-            <div>
+            <div class="input">
                 <label for="period">Period:</label>
                 <select name="period" id="period">
                     <option value="1mo">1 month</option>
@@ -123,21 +125,21 @@
 
                 <br>
 
-                <div>
+                <div class="input">
                     <label for="cash">Starting Cash ($):</label>
                     <input type="number" id="cash" name="cash" placeholder="100000" value="100000" required autocomplete="off" min="1" max="10000000">
                 </div>
 
                 <br>
 
-                <div>
+                <div class="input">
                     <label for="equity_per_trade">Equity per trade (%)</label>
                     <input type="number" id="equity_per_trade" name="equity_per_trade" placeholder="5" value="5" required autocomplete="off" min="0.01" max="100" step="any">
                 </div>
 
                 <br>
 
-                <div>
+                <div class="input">
                     <label for="commission">Commission per trade (%)</label>
                     <input type="number" id="commission" name="commission" placeholder="0.2" value="0.2" required autocomplete="off" min="-9.99" max="9.99" step="any">
                 </div>
@@ -145,9 +147,10 @@
             </details>
 
             <br>
-
-            <button type="submit">Run Backtest</button>
-
+            
+            <div class="input">
+                <button type="submit">Run Backtest</button>
+            </div>
         </form>
 
     </main>
