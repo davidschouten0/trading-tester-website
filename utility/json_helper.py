@@ -1,4 +1,4 @@
-from strategy_switcher import get_strategy_description
+from utility.strategy_switcher import get_strategy_description
 
 def create_master_json(historic_data, data, indicator_list, starting_capital):
 

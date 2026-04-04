@@ -22,6 +22,9 @@
     <title>Results</title>
 </head>
 
+// description_1 : very short overview of strat
+// description_2 : goes lil into detail, strengths of the strat and weaknesses
+// description_3 : more focus on when the strat buys and when sells, what that means and what its trying to take advantage of
 
 <body>
 
@@ -32,13 +35,22 @@
     <main>
         <h1>Trading Strategy Tester</h1>
 
-        <p>You tested {{ strategy_html }} on '{{ ticker_html }}': {{ strategy_description }} </p>
+        <p>You tested {{ strategy_html }} on '{{ ticker_html }}': {{ description_1 }} this is a very short description </p>
+
 
         <h2> {{ strategy_html }}  VS  Buy and Hold </h2>
         <div id="equity_curve"> </div>
 
+        <p> a short overiew of the strat, some pros and cons are listed here </p>
+
+        <p> judging how and when the strategy buys are discussed here </p>
+
+        <p> many other things go </p>
+
         <h2> Buying signals </h2>
         <div id="price_chart"></div>
+
+        <div id="indicator_chart"></div>
 
         <h2> Explanation </h2>
         <div id="explanation"></div>

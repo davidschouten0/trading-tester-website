@@ -212,10 +212,19 @@ indicatorNames.forEach(indName => {
 Plotly.newPlot("price_chart", [traceCandles, traceBuys, traceSells, ...dynamicIndicatorTraces], layoutPrice, {responsive: true});
 
 
+const layoutIndicator = {
+    title: 'Indicator Chart',
+    yaxis: { 
+        title: 'value :p', 
+        showgrid: true, gridcolor: '#e5e7eb',
+        ...crosshairSettings
+    }
+}
+
+Plotly.newPlot("indicator_chart", [...dynamicIndicatorTraces], layoutIndicator, {responsive:true});
 
 //create a string to shove into div
 
 const bigString = ""
 const description = explanation.map(row => row.description)
 const sharpe = explanation.map(row => row.Sharpe_Ratio) // how are spaces interpreted when turning the data to json
-
