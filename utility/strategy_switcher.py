@@ -58,7 +58,7 @@ STRATEGIES = {
     "Williams": WilliamsStrategy,
 }
 
-STRATEGY_DESCRIPTIONS = {
+STRATEGY_EXPLANATION_QUICK = {
     "ADX": "The Average Directional Index (ADX) measures the absolute strength of a trend, regardless of its direction. This strategy generates buy signals when a strong uptrend is confirmed by rising directional indicators.",
     "Aroon": "The Aroon indicator detects the start of new trends by measuring the time since the last high or low. A buy signal occurs when the upward momentum (Aroon Up) crosses above the downward momentum (Aroon Down).",
     "ATRBreakout": "This breakout strategy uses the Average True Range (ATR) to measure normal market volatility. It buys when the price breaks significantly above its normal fluctuation range – a sign of explosive, new momentum.",
@@ -89,6 +89,10 @@ STRATEGY_DESCRIPTIONS = {
     "Williams": "The Williams %R indicator measures momentum on a negative scale (0 to -100). The strategy looks for highly oversold markets and buys when the value dynamically breaks out upwards from the extreme negative range (below -80)."
 }
 
+STRATEGY_EXPLANATION_BUYING={
+    "A": "B",
+}
+
 
 def get_strategy(name="SMA"):
     return STRATEGIES.get(name)
@@ -96,5 +100,8 @@ def get_strategy(name="SMA"):
 def strategy_is_valid(strategy):
     return strategy in STRATEGIES
 
-def get_strategy_description(strategy):
-    return STRATEGY_DESCRIPTIONS[strategy]
+def get_strategy_explanation_quick(strategy):
+    return STRATEGY_EXPLANATION_QUICK[strategy]
+
+def get_strategy_explanation_buying(strategy):
+    return STRATEGY_EXPLANATION_BUYING[strategy]

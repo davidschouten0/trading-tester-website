@@ -3,9 +3,7 @@ import numpy as np
 import yfinance as yf
 from backtesting import Backtest
 
-from utility.strategy_switcher import get_strategy
-from utility.strategy_switcher import strategy_is_valid
-from utility.strategy_switcher import get_strategy_description
+import utility.strategy_switcher as strat_switch
 
 from utility import json_helper
 
@@ -25,7 +23,7 @@ def backtest():
     
     #strat
     strategy = flask.request.form.get("strategy", "SMA")
-    if not strategy_is_valid(strategy):
+    if not strat_switch.strategy_is_valid(strategy):
         return flask.render_template("index.html", error_message=f"The Strategie \"{strategy}\" existiert (noch) nicht")
     
     #cash
@@ -83,7 +81,7 @@ def backtest():
     
     historic_data = historic_data[["Open", "High", "Low", "Close", "Volume"]]
 
-    strat = get_strategy(strategy) 
+    strat = strat_switch.get_strategy(strategy) 
     equity_buy = float(equity_per_trade)/100
 
     if equity_buy >= 1.0:

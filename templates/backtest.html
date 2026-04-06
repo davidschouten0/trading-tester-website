@@ -33,27 +33,22 @@
     </header>
 
     <main>
-        <h1>Trading Strategy Tester</h1>
+        <h1>You tested {{ strategy_html }} on '{{ ticker_html }}'</h1>
 
-        <p>You tested {{ strategy_html }} on '{{ ticker_html }}': {{ description_1 }} this is a very short description </p>
+        <h2>Quick overview</h2>
 
+        <table>here will sharpe ratio and other thingies be</table>
 
-        <h2> {{ strategy_html }}  VS  Buy and Hold </h2>
         <div id="equity_curve"> </div>
 
-        <p> a short overiew of the strat, some pros and cons are listed here </p>
+        <p> {{ explaination_quick }} </p>
 
-        <p> judging how and when the strategy buys are discussed here </p>
+        <h2> Buying Descisions </h2>
 
-        <p> many other things go </p>
-
-        <h2> Buying signals </h2>
         <div id="price_chart"></div>
-
         <div id="indicator_chart"></div>
 
-        <h2> Explanation </h2>
-        <div id="explanation"></div>
+        <h2> {{ explanation_buying }} </h2>
     </main>
 
     <footer>

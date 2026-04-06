@@ -1,4 +1,4 @@
-from utility.strategy_switcher import get_strategy_description
+import utility.strategy_switcher as strat_switch
 
 def create_master_json(historic_data, data, indicator_list, starting_capital):
 
@@ -18,13 +18,13 @@ def create_trades_json(data):
     return data["_trades"].to_json(orient="records", date_format="iso")
 
 def create_explanation_json(data, ticker):
-    strategy = data["_strategy"]["name"] #or something like that
-
     explanation_df = data["."] #every short data, that is like 1 value, get the strategy from _strategy
 
+    strategy = data["_strategy"]["name"] #or something like that
     explanation_df["strategy"] = strategy
     
-    explanation_df["description"] = get_strategy_description(strategy)
+    explanation_df["explanation_quick"] = strat_switch.get_strategy_explanation_quick(strategy)
+    explanation_df["explanation_buying"] = strat_switch.get_strategy_explanation_buying(strategy)
 
     explanation_df["ticker"] = ticker
 

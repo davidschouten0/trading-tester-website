@@ -21,17 +21,18 @@ halt einfach eine Webseite, bei der man einen stock auswählen kann und eine Str
 
 *style:*
 vars:
-camelCase nuh uh, PascalCase NUH UH, kebab-case-also-nuh-uh
-only_like_this (pls)
+- camelCase nuh uh, PascalCase NUH UH, kebab-case-also-nuh-uh
+- only_like_this (pls)
 
 
 
 ---
 
-erklaerungen einfuegen (graphen helfen dem verstaendnis, muessen aber auch interpretiert werden)
-erklaerung mit sharpe ration, wann die strategie kauft, wann sie verkauft u.s.w.
-mehr text
-eigener graph mit manchen indikatoren
+TODO:
+- indicator graph (i think works)
+- index beautify (line it up differently, try different things)
+- explanation system
+- writing explanations
 
 
 TODOs:
