@@ -31,14 +31,11 @@ vars:
 TODO:
 - indicator graph (i think works)
 - index beautify (line it up differently, try different things)
-- explanation system
+- explanation system (system setup; missing table for key values, like sharpe)
 - writing explanations
 
 
 TODOs:
-  - maybe also different chart than candlestick, eg. heikin ashi
-  - create own strategies
-
   - cooler charts, slight tweaks (heikin ashi, label position)
   - beautify (general html layout, favicons, mobile-support, dark mode)
 
