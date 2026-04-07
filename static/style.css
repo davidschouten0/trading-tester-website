@@ -1,30 +1,160 @@
+/* --- BASIS-STYLING --- */
+* {
+    /* Sorgt dafür, dass Padding die Breite nicht verändert */
+    box-sizing: border-box; 
+}
+
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-
     font-family: "JetBrains Mono", monospace;
+    background-color: #fcfcfc; 
+    color: #1a1a1a;
+    line-height: 1.6;
 }
 
-main{
-    flex: 1;
-    margin-left: 10px;
-}
-
-input, select, button, textarea {
-    font-family: inherit;
+/* --- ZENTRIERUNG & LAYOUT --- */
+/* Wir beschränken die Breite der Hauptbereiche und zentrieren sie */
+header, main, footer {
+    width: 100%;
+    max-width: 800px; /* Zentrierter "Zetamac"-Container */
+    margin: 0 auto;
 }
 
 header {
-    border-bottom: 2px solid #676767;
-    padding: 15px 20px;
+    border-bottom: 2px solid #1a1a1a;
+    padding: 20px 0;
+    text-align: center; /* Titel in der Mitte */
+    font-size: 1.5rem;
+}
+
+main {
+    flex: 1;
+    padding: 40px 20px;
+    /* margin-left: 10px; <- Entfernt, da wir jetzt mittig zentrieren */
 }
 
 footer {
-    border-top: 1px solid #676767;
-    padding: 10px 20px;
-    font-size: 0.8em;
+    border-top: 1px solid #e5e5e5;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.85em;
+    color: #666;
+}
+
+/* --- TYPOGRAFIE --- */
+h1, h2 {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+p {
+    text-align: center;
+}
+
+/* --- FORMULARE & INPUTS --- */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Zentriert alle Input-Gruppen */
+    margin-top: 20px;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px; /* Formularfelder nicht zu breit werden lassen */
+    margin-bottom: 1.2rem;
+}
+
+label {
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    font-family: inherit;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus, select:focus {
+    border-color: #1a1a1a;
+    box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.1); /* Moderner Focus-Effekt */
+}
+
+button {
+    font-family: inherit;
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #1a1a1a;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #404040;
+}
+
+/* --- ADVANCED SETTINGS (Details/Summary) --- */
+details {
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 1.5rem;
+    background-color: #fff;
+}
+
+summary {
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    outline: none;
+}
+
+/* Die Inputs im Details-Tag zentrieren */
+details .input {
+    margin: 1rem auto 0 auto; 
+}
+
+/* --- TABELLEN --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    background-color: #fff;
+}
+
+th, td {
+    border: 1px solid #e5e5e5;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f9f9f9;
+    font-weight: bold;
 }
 
 /* Pfeile bei nummer feldern ausblenden */
