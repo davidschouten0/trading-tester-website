@@ -17,15 +17,13 @@ def create_master_json(historic_data, data, indicator_list, starting_capital):
 def create_trades_json(data):
     return data["_trades"].to_json(orient="records", date_format="iso")
 
-def create_explanation_json(data, ticker):
-    explanation_df = data["."] #every short data, that is like 1 value, get the strategy from _strategy
+def create_explanation_json(data, ticker, strategy):
+    explanation_series = data.drop(labels=['_strategy', '_equity_curve', '_trades'])
 
-    strategy = data["_strategy"]["name"] #or something like that
-    explanation_df["strategy"] = strategy
+    explanation_series["ticker"] = ticker
+    explanation_series["strategy"] = strategy
     
-    explanation_df["explanation_quick"] = strat_switch.get_strategy_explanation_quick(strategy)
-    explanation_df["explanation_buying"] = strat_switch.get_strategy_explanation_buying(strategy)
+    explanation_series["explanation_quick"] = strat_switch.get_strategy_explanation_quick(strategy)
+    explanation_series["explanation_buying"] = strat_switch.get_strategy_explanation_buying(strategy)
 
-    explanation_df["ticker"] = ticker
-
-    return explanation_df.to_json()
+    return explanation_series.to_json()

@@ -14,7 +14,7 @@
     <script>
         window.BACKTEST_DATA = {{ master_json | safe }};
         window.TRADES_DATA = {{ trades_json | safe }};
-        window.EXPLANATION_DATA = {{ exlpanation_json | safe }};
+        window.EXPLANATION_DATA = {{ explanation_json | safe }};
     </script>
 
     <script src="../static/main.js" defer></script>
@@ -34,18 +34,18 @@
 
         <h2>Quick overview</h2>
 
-        <table>here will sharpe ratio and other thingies be</table>
+        <table id="overview_table"></table>
 
-        <div id="equity_curve"> </div>
+        <div id="equity_curve"></div>
 
-        <p> {{ explanation_quick }} </p>
+        <div id="explanation_quick"></div>
 
         <h2> Buying Descisions </h2>
 
         <div id="price_chart"></div>
         <div id="indicator_chart"></div>
 
-        <h2> {{ explanation_buying }} </h2>
+        <div id="explanation_buying"></div>
     </main>
 
     <footer>

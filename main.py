@@ -121,13 +121,15 @@ def backtest():
 
     master_json = json_helper.create_master_json(historic_data, data, indicator_list, starting_capital)
 
-    explanation_json = json_helper.create_explanation_json(data, ticker)
+    explanation_json = json_helper.create_explanation_json(data, ticker, strategy)
 
     return flask.render_template(
         "backtest.html",
         master_json=master_json,
         trades_json=trades_json,
-        explanation_json=explanation_json
+        explanation_json=explanation_json,
+        strategy_html=strategy,
+        ticker_html=ticker
     )
 
 # search for tickers
