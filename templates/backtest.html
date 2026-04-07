@@ -14,7 +14,7 @@
     <script>
         window.BACKTEST_DATA = {{ master_json | safe }};
         window.TRADES_DATA = {{ trades_json | safe }};
-        window.STRATEGY = "{{ strategy_html }}";
+        window.EXPLANATION_DATA = {{ explanation_json | safe }};
     </script>
 
     <script src="../static/main.js" defer></script>
@@ -26,19 +26,26 @@
 <body>
 
     <header>
-        <div style="text-align: center;"> <strong> Pingu Trader 🐧 </strong> </div>
+        <div> <strong> PinguTrader 🐧 </strong> </div>
     </header>
 
     <main>
-        <h1>Trading Strategy Tester</h1>
+        <h1>You tested {{ strategy_html }} on '{{ ticker_html }}'</h1>
 
-        <p>You tested {{ strategy_html }} on '{{ ticker_html }}': {{ strategy_description }} </p>
+        <h2>Quick overview</h2>
 
-        <h2> {{ strategy_html }}  VS  Buy and Hold </h2>
-        <div id="equity_curve"> </div>
+        <table id="overview_table"></table>
 
-        <h2> Buying signals </h2>
+        <div id="equity_curve"></div>
+
+        <div id="explanation_quick"></div>
+
+        <h2> Buying Descisions </h2>
+
         <div id="price_chart"></div>
+        <div id="indicator_chart"></div>
+
+        <div id="explanation_buying"></div>
     </main>
 
     <footer>

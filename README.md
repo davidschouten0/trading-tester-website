@@ -21,23 +21,26 @@ halt einfach eine Webseite, bei der man einen stock auswählen kann und eine Str
 
 *style:*
 vars:
-camelCase nuh uh, PascalCase NUH UH, kebab-case-also-nuh-uh
-only_like_this (pls)
+- camelCase nuh uh, PascalCase NUH UH, kebab-case-also-nuh-uh
+- only_like_this (pls)
 
 
 
 ---
 
-TODOs:
-  - maybe also different chart than candlestick, eg. heikin ashi
-  - create own strategies
+TODO:
+- indicator graph: closer to price graph, only if its on different scale than prices!!! make quick true false in strategies
 
-  - cooler charts, slight tweaks (heikin ashi, label position)
-  - beautify (general html layout, favicons, mobile-support, dark mode)
+- explanation system: better table (date time, and uselesss thingies), Add wikipedia links to terms, have a rating system with pros and cons for strategies
 
-  - Implement strategies from daytraders and course sellers? 
+- Implement strategies from daytraders and course sellers? 
 
-  - launch
+- beautify (general html layout, favicons, mobile-support, dark mode)
+
+- launch
+
+- vergleichen von strategien
+
 
 
 Implementing Strategies:

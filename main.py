@@ -3,11 +3,9 @@ import numpy as np
 import yfinance as yf
 from backtesting import Backtest
 
-from utility.strategy_switcher import get_strategy
-from utility.strategy_switcher import strategy_is_valid
-from utility.strategy_switcher import get_strategy_description
+import utility.strategy_switcher as strat_switch
 
-from utility import graph_helper
+from utility import json_helper
 
 app = flask.Flask(__name__)
 
@@ -21,17 +19,11 @@ def index():
 # run a backtest
 @app.route("/backtest", methods=["POST"])
 def backtest():
-
-    print(f"\n{'='*40}")
-    print("EMPANGENE DATEN VON DER WEBSITE:")
-    print(flask.request.form)
-    print(f"{'='*40}\n")
-
     # region get the infos, and validate them
     
     #strat
     strategy = flask.request.form.get("strategy", "SMA")
-    if not strategy_is_valid(strategy):
+    if not strat_switch.strategy_is_valid(strategy):
         return flask.render_template("index.html", error_message=f"The Strategie \"{strategy}\" existiert (noch) nicht")
     
     #cash
@@ -89,7 +81,7 @@ def backtest():
     
     historic_data = historic_data[["Open", "High", "Low", "Close", "Volume"]]
 
-    strat = get_strategy(strategy) 
+    strat = strat_switch.get_strategy(strategy) 
     equity_buy = float(equity_per_trade)/100
 
     if equity_buy >= 1.0:
@@ -125,17 +117,19 @@ def backtest():
     """
     # endregion
 
-    trades_json = graph_helper.create_trades_json(data)
+    trades_json = json_helper.create_trades_json(data)
 
-    master_json = graph_helper.create_master_json(historic_data, data, indicator_list, starting_capital)
+    master_json = json_helper.create_master_json(historic_data, data, indicator_list, starting_capital)
+
+    explanation_json = json_helper.create_explanation_json(data, ticker, strategy)
 
     return flask.render_template(
         "backtest.html",
-        ticker_html=ticker,
-        strategy_html=strategy, 
-        strategy_description=get_strategy_description(strategy),
         master_json=master_json,
-        trades_json=trades_json
+        trades_json=trades_json,
+        explanation_json=explanation_json,
+        strategy_html=strategy,
+        ticker_html=ticker
     )
 
 # search for tickers
