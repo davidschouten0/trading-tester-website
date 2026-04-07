@@ -29,21 +29,17 @@ vars:
 ---
 
 TODO:
-- indicator graph (i think works)
-- index beautify (line it up differently, try different things)
-- explanation system (system setup; missing table for key values, like sharpe)
-- writing explanations
+- indicator graph: closer to price graph, only if its on different scale than prices!!! make quick true false in strategies
 
+- explanation system: better table (date time, and uselesss thingies), Add wikipedia links to terms, have a rating system with pros and cons for strategies
 
-TODOs:
-  - cooler charts, slight tweaks (heikin ashi, label position)
-  - beautify (general html layout, favicons, mobile-support, dark mode)
+- Implement strategies from daytraders and course sellers? 
 
-  - Implement strategies from daytraders and course sellers? 
+- beautify (general html layout, favicons, mobile-support, dark mode)
 
-  - launch
+- launch
 
-  - vergleichen von strategien
+- vergleichen von strategien
 
 
 
