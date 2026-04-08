@@ -20,6 +20,17 @@ def create_trades_json(data):
 def create_explanation_json(data, ticker, strategy):
     explanation_series = data.drop(labels=['_strategy', '_equity_curve', '_trades'])
 
+    time_keys = [
+        "Start", "End", "Duration", 
+        "Max. Drawdown Duration", "Avg. Drawdown Duration", 
+        "Max. Trade Duration", "Avg. Trade Duration"
+    ]
+    
+    for key in time_keys:
+        if key in explanation_series:
+
+            explanation_series[key] = str(explanation_series[key])
+
     explanation_series["ticker"] = ticker
     explanation_series["strategy"] = strategy
     
