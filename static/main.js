@@ -36,7 +36,7 @@ function renderOverviewTable(stats) {
         </tr>
     `;
 
-    const ignoreKeys = ["explanation_quick", "explanation_buying", "ticker", "strategy"];
+    const ignoreKeys = ["explanation_quick", "explanation_buying", "ticker", "strategy", "Return (Ann.) [%]"];
 
     for (const [key, value] of Object.entries(stats)) {
         if (ignoreKeys.includes(key)) continue; 
